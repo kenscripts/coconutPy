@@ -7,6 +7,6 @@ Under construction.
 
 ## Search by Organism
 
-## Search by Properties
+## Search by Property
 
 ## Search by Collection

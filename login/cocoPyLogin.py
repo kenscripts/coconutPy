@@ -1,8 +1,7 @@
 import requests
 from typing import Optional, Dict, Any
-
-
 API_BASE = "https://coconut.naturalproducts.net/api"
+
 
 class cocoLog:
     def __init__(
