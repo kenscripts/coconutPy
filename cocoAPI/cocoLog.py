@@ -1,5 +1,4 @@
 import requests
-from typing import Optional, Dict, Any
 API_BASE = "https://coconut.naturalproducts.net/api"
 
 
@@ -9,13 +8,13 @@ class cocoLog:
                  ):
        self.api_url = API_BASE.rstrip("/")
        self.session = requests.Session()
-       self.logSession = None
+       self.logSession = None # store json response
        self.token = None
     def login(
               self,
               email,
               password
-              ) -> Dict[str, Any]:
+              ):
        """
        Log in to the COCONUT API and return the response JSON.
        On success, stores the token and sets the Authorization header.
@@ -41,7 +40,7 @@ class cocoLog:
                                       )
     def logout(
                self
-               ) -> Dict[str, Any]:
+               ):
        """
        Log out from the COCONUT API. Returns the response JSON.
        Clears stored token and Authorization header.

@@ -1,0 +1,14 @@
+from cocoAPI.cocoLog import cocoLog
+from cocoAPI.cocoMol import cocoMol
+
+myCoco = cocoLog()
+myCoco.login(
+             email = "<>"
+             password = "<>"
+            )
+
+myMol = cocoMol(myCoco)
+QUERY = {
+         "name":"caffeine"
+         }
+myMol.molSearch(QUERY)
