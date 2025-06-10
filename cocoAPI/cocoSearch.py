@@ -23,54 +23,169 @@ class cocoSearch:
                              }
 
 
-#   def advSearch(
-#                 self,
-#                 search_type,
-#                 search_tag,
-#                 search_query
-#                 ):
-#      """
-#      Posts to /organisms/search and returns the json response.
-#      """
-#
-#      # get response
-#      adv_search_post = f"{self.api_url}/search"
-#      adv_search_req = {
-#                        "type" : search_type,
-#                        "tagType" : search_tag,
-#                        "query" : search_query,
-#                        }
-#      adv_search_res = self.session.post(
-#                                         url = adv_search_post,
-#                                         json = adv_search_req
-#                                         )
-#      adv_search_res.raise_for_status()
-#
-#      # return response as json
-#      return adv_search_res.json()
-
-
    def advSearch(
                  self,
                  search_type,
-                 search_tag,
-                 search_query
+                 search_tag = None,
+                 tag_query = None,
+                 filter_query = None,
+                 basic_query = None
                  ):
-     """
-     Posts to /search and returns all paginated results as a list.
-     """
+      """
+      Posts to /search endpoint and returns the JSON response.
+      Validates input according to COCONUT API rules.
+      """
+
+      # Allowed values
+      valid_types = {
+                     "filters",
+                     "tags",
+                     "basic"
+                     }
+      valid_tag_types = {
+                         "dataSource",
+                         "organisms",
+                         "citations"
+                         }
+      valid_filter_keys = {
+                           # Molecular properties
+                           "tac", "hac", "mw", "emw", "mrc", "vdwv", "fc",
+                           # Chemical properties
+                           "alogp", "topopsa", "fcsp3", "np", "qed",
+                           # Structural features
+                           "rbc", "arc", "hba", "hbd",
+                           # Lipinski parameters
+                           "lhba", "lhbd", "lro5v",
+                           # Sugar-related
+                           "cs", "crs", "cls",
+                           # Classyfire classifications
+                           "class", "subclass", "superclass", "parent",
+                           # NP classifier
+                           "np_pathway", "np_superclass", "np_class", "np_glycoside"
+                           }
+      empty_values = [
+                      None,
+                      "",
+                      [],
+                      {}
+                      ]
  
+      
+      # validate search_type
+      if search_type not in valid_types:
+         raise ValueError(
+                          f"`search_type` must be one of {valid_types}."
+                          )
+
+      if search_type == "tags":
+         # validate search_tag
+         if search_tag not in valid_tag_types:
+            raise ValueError(
+                             f"`search_tag` must be one of {valid_tag_types}"
+                             )
+         # validate tag_query
+         if not isinstance(
+                           tag_query,
+                           list
+                           ):
+            raise TypeError(
+                            "`tag_query` must be a list"
+                            )
+         # validate empty parameters
+         non_empty = {
+                      k:v
+                      for k,v in {
+                                  filter_query,
+                                  basic_query
+                                  }.items() 
+                      if v not in empty_values
+                      }
+         if non_empty:
+            raise ValueError(
+                             f"{','.join(non_empty)} must be empty for tag-based searches"
+                             )
+         # assign tag-based search query
+         search_query = tag_query
+
+      elif search_type == "filters":
+         # validate empty parameters
+         non_empty = {
+                      k:v
+                      for k,v in {
+                                  search_tag,
+                                  tag_query,
+                                  basic_query
+                                  }.items() 
+                      if v not in empty_values
+                      }
+         if non_empty:
+            raise ValueError(
+                             f"{','.join(non_empty)} must be empty for filter-based searches"
+                             )
+         # validate filter_query
+         if not isinstance(
+                           filter_query,
+                           dict
+                           ):
+            raise TypeError(
+                            "`filter_query` must be a dictionary"
+                            )
+         invalid_keys = [
+                         k
+                         for k in query
+                         if k not in valid_filter_keys
+                         ]
+         if invalid_keys:
+            raise KeyError(
+                           f"Invalid filter key(s): {invalid_keys}"
+                           )
+         # assign filter-based search query
+         search_query = ''.join(
+                                f"{key}...{value}"
+                                for key,value in filter_query.items()
+                                )
+
+      elif search_type == "basic":
+         # validate empty parameters
+         non_empty = {
+                      k:v
+                      for k,v in {
+                                  search_tag,
+                                  tag_query,
+                                  filter_query
+                                  }.items() 
+                      if v not in empty_values
+                      }
+         if non_empty:
+            raise ValueError(
+                             f"{','.join(non_empty)} must be empty for basic searches"
+                             )
+         # validate basic_query
+         if not isinstance(
+                           basic_query,
+                           str
+                           ):
+            raise TypeError(
+                            "`basic_query` must be a string"
+                            )
+         # assign basic search query
+         search_query = basic_query
+ 
+
      adv_search_post = f"{self.api_url}/search"
      curr_pg = 1
      all_data = []
  
+
+     # go through pages
      while True:
         # request
         adv_search_req = {
                           "type": search_type,
                           "tagType": search_tag,
                           "query": search_query,
-                          "page": curr_pg
+                          "page": curr_pg,
+                          "limit": ""
                           }
         adv_search_res = self.session.post(
                                            url = adv_search_post,
@@ -103,7 +218,6 @@ class cocoSearch:
                                     .get(
                                          "total"
                                          )
-        print(curr_pg,per_pg,total_hits)
         if curr_pg * per_pg >= total_hits:
            break
         curr_pg += 1
