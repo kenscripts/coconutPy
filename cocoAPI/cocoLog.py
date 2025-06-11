@@ -10,6 +10,8 @@ class cocoLog:
        self.session = requests.Session()
        self.logSession = None # store json response
        self.token = None
+
+
     def login(
               self,
               email,
@@ -38,6 +40,8 @@ class cocoLog:
                                        "Authorization": f"Bearer {self.token}"
                                        }
                                       )
+
+
     def logout(
                self
                ):
@@ -45,8 +49,11 @@ class cocoLog:
        Log out from the COCONUT API. Returns the response JSON.
        Clears stored token and Authorization header.
        """
+       # validate login
        if not self.token:
           raise RuntimeError("not logged in")
+
+       # initiate logout
        logout_get = f"{self.api_url}/auth/logout"
        self.logSession = self.session.get(
                                           url = logout_get

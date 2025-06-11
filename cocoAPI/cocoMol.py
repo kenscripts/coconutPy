@@ -1,15 +1,16 @@
-from cocoAPI.cocoLog import cocoLog
+from cocoAPI.cocoBase import cocoBase
 
-class cocoMol:
+class cocoMol(
+              cocoBase
+              ):
    def __init__(
                 self,
                 cocoLog
                 ):
-      if not cocoLog.token:
-         raise RuntimeError("cocoLog instance is not authenticated.")
+      # inherits session, api_url
+      super().__init__(cocoLog)
 
-      self.session = cocoLog.session
-      self.api_url = cocoLog.api_url
+      # molSearch attributes
       self.mol_res = {}
       self.mol_search_fields = []
       self.get_molResponse() # run automatically
@@ -24,12 +25,9 @@ class cocoMol:
       Automatically run once cocoMol is created.
       """
 
-      mol_get = f"{self.api_url}/molecules"
-      mol_get_res = self.session.get(
-                                     url = mol_get
-                                     )
-      mol_get_res.raise_for_status()
-      self.mol_res = mol_get_res.json()
+      self.mol_res = self._get(
+                               endpoint = "molecules"
+                               )
       self.mol_search_fields = self.mol_res["data"]["fields"]
 
 
@@ -41,32 +39,38 @@ class cocoMol:
       Posts to /molecules/search and returns the json response.
       """
 
+      # validate dtype
       if not isinstance(
                         mol_query, 
                         dict
                         ):
-         raise TypeError("mol_query must be a dictionary of field:value.")
+         raise TypeError(
+                         "mol_query must be a dictionary of field:value."
+                         )
 
+      # validate length
       if len(mol_query) != 1:
-         raise ValueError("mol_query must contain exactly one field:value pair.")
+         raise ValueError(
+                          "mol_query must contain exactly one field:value pair."
+                          )
 
+      # validate keys
       field = list(mol_query.keys())[0]
       if field not in self.mol_search_fields:
          raise KeyError(
-                        f"Field {mol_query.items()} is not valid.Valid fields are: {self.mol_search_fields}"
+                        f"Field {mol_query.items()} is not valid. Valid fields are: {self.mol_search_fields}"
                         )
 
-      mol_search_post = f"{self.api_url}/molecules/search"
+      # build and execute search query
       mol_search_json = self.build_molSearch(
                                              mol_query
                                              )
-      mol_search_res = self.session.post(
-                                         url = mol_search_post,
-                                         json = mol_search_json
-                                         )
-      mol_search_res.raise_for_status()
 
-      return mol_search_res.json() # allows for multiple searches with class instance
+      # allows for multiple searches with class instance
+      return self._post(
+                        endpoint = "molecules/search",
+                        json_body = mol_search_json
+                        )
 
 
    def build_molSearch(

@@ -1,14 +1,42 @@
-from cocoAPI.cocoLog import cocoLog
-from cocoAPI.cocoMol import cocoMol
+from cocoAPI.cocoPy import cocoPy
 
-myCoco = cocoLog()
-myCoco.login(
-             email = "<>"
-             password = "<>"
-            )
+# login
+coco = cocoPy(
+              email = "<>",
+              password = "<>"
+              )
 
-myMol = cocoMol(myCoco)
-QUERY = {
-         "name":"caffeine"
-         }
-myMol.molSearch(QUERY)
+
+# molecule search
+MOL_QUERY = {
+             "name":"Ferutidin"
+             }
+coco.mol.molSearch(
+                   MOL_QUERY
+                   )
+
+
+# advanced search (tag-based; organisms)
+coco.search.update_advSearch_req(
+                                 search_type = "tags",
+                                 tag_query = {
+                                              "organisms" : [
+                                                             "Ferula"
+                                                             ]
+                                              }
+            
+                                 )
+coco.search.advSearch()
+                                 
+
+# advanced search (filter-based)
+coco.search.update_advSearch_req(
+                                 search_type = "filters",
+                                 filter_query = [
+                                                 {
+                                                  "mw" : "500..1000",
+                                                  "np_pathway" : "Alkaloids"
+                                                  }
+                                                 ]
+                                 )
+coco.search.advSearch()

@@ -1,26 +1,25 @@
-from cocoAPI.cocoLog import cocoLog
+from cocoAPI.cocoBase import cocoBase
 
-class cocoSearch:
+class cocoSearch(
+                 cocoBase
+                 ):
    def __init__(
                 self,
                 cocoLog
                 ):
-      # guards
-      if not cocoLog.token:
-         raise RuntimeError("cocoLog instance is not authenticated.")
+      # inherits session, api_url
+      super().__init__(cocoLog)
 
-      # attributes
-      self.session = cocoLog.session
-      self.api_url = cocoLog.api_url
+      # advSearch attributes
       self.advSearch_req = {
-                             "type" : "",
-                             "tagType" : "",
-                             "query" : "",
-                             "limit" : "",
-                             "sort" : "",
-                             "page" : "",
-                             "offset" : ""
-                             }
+                            "type" : "",
+                            "tagType" : "",
+                            "query" : "",
+                            "limit" : "",
+                            "sort" : "",
+                            "page" : "",
+                            "offset" : ""
+                            }
       self.advSearch_tag_keys = {
                                  "dataSource",
                                  "organisms",
@@ -188,7 +187,7 @@ class cocoSearch:
                                    )
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Filter-Based Search
+      # Basic Search
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       elif basic_query is not None:
@@ -209,10 +208,9 @@ class cocoSearch:
                                    )
  
 
-   def post_advSearch(
-                      self
-                      ):
-      adv_search_post = f"{self.api_url}/search"
+   def advSearch(
+                 self
+                 ):
       curr_pg = 1
       all_data = []
 
@@ -224,12 +222,11 @@ class cocoSearch:
                                     "page": curr_pg
                                     }
                                    )
-         adv_search_res = self.session.post(
-                                            url = adv_search_post,
-                                            json = self.advSearch_req
-                                            )
-         adv_search_res.raise_for_status()
-         adv_search_json = adv_search_res.json()
+         adv_search_json = self._post(
+                                      endpoint = "search",
+                                      json_body = self.advSearch_req
+                                      )
+
  
          # request data
          pg_data = adv_search_json.get(
@@ -265,3 +262,17 @@ class cocoSearch:
          curr_pg += 1
  
       return all_data
+
+
+   def clear_advSearch_req(
+                           self
+                           ):
+      self.advSearch_req = {
+                            "type" : "",
+                            "tagType" : "",
+                            "query" : "",
+                            "limit" : "",
+                            "sort" : "",
+                            "page" : "",
+                            "offset" : ""
+                            }

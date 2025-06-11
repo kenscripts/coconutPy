@@ -1,17 +1,16 @@
-from cocoAPI.cocoLog import cocoLog
+from cocoAPI.cocoBase import cocoBase
 
-class cocoOrg:
+class cocoOrg(
+              cocoBase
+              ):
    def __init__(
                 self,
                 cocoLog
                 ):
-      # guards
-      if not cocoLog.token:
-         raise RuntimeError("cocoLog instance is not authenticated.")
+      # inherits session, api_url
+      super().__init__(cocoLog)
 
       # attributes
-      self.session = cocoLog.session
-      self.api_url = cocoLog.api_url
       self.org_get_res= {}
       self.org_search_fields = []
       self.get_orgResponse() # run automatically
