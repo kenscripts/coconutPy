@@ -10,94 +10,136 @@ class cocoMol(
       # inherits session, api_url
       super().__init__(cocoLog)
 
-      # molSearch attributes
-      self.mol_res = {}
-      self.mol_search_fields = []
-      self.get_molResponse() # run automatically
+      # request attributes
+      self.get_moleculeRequestJson() # run automatically
 
 
-   def get_molResponse(
-                       self
-                       ):
+   def get_moleculeRequestJson(
+                               self
+                               ):
       """
-      Fetches /molecules metadata (e.g. search fields).
-      Stores the response and a list of available search fields.
-      Automatically run once cocoMol is created.
+      GET method for COCONUT molecules resource.
       """
+      self.molecule_get_json = self._get(
+                                         endpoint = "molecules"
+                                         )
+      self.molecule_search_fields = self.molecule_get_json["data"]["fields"]
 
-      self.mol_res = self._get(
-                               endpoint = "molecules"
-                               )
-      self.mol_search_fields = self.mol_res["data"]["fields"]
 
-
-   def molSearch(
-                 self,
-                 mol_query
-                 ):
+   def moleculeSearch(
+                      self,
+                      molecule_query
+                      ):
       """
-      Posts to /molecules/search and returns the json response.
+      Performs COCONUT molecule search and returns the json response.
       """
 
       # validate dtype
       if not isinstance(
-                        mol_query, 
+                        molecule_query, 
                         dict
                         ):
          raise TypeError(
-                         "mol_query must be a dictionary of field:value."
+                         "molecule_query must be a dictionary of field:value."
                          )
 
       # validate length
-      if len(mol_query) != 1:
+      if len(molecule_query) != 1:
          raise ValueError(
-                          "mol_query must contain exactly one field:value pair."
+                          "molecule_query must contain exactly one field:value pair."
                           )
 
       # validate keys
-      field = list(mol_query.keys())[0]
-      if field not in self.mol_search_fields:
+      field = list(
+                   molecule_query.keys()
+                   )[0]
+      if field not in self.molecule_search_fields:
          raise KeyError(
-                        f"Field {mol_query.items()} is not valid. Valid fields are: {self.mol_search_fields}"
+                        f"{field} is not a valid field. Valid fields are: {self.molecule_search_fields}"
                         )
 
-      # build and execute search query
-      mol_search_json = self.build_molSearch(
-                                             mol_query
-                                             )
+      # build search query
+      self.molecule_search_json = self.create_moleculeSearch_req(
+                                                                 molecule_query
+                                                                 )
 
-      # allows for multiple searches with class instance
+      # execute search query
       return self._post(
                         endpoint = "molecules/search",
-                        json_body = mol_search_json
+                        json_body = self.molecule_search_json
                         )
 
 
-   def build_molSearch(
-                       self,
-                       mol_query
-                       ):
+   def create_moleculeSearch_req(
+                                 self,
+                                 molecule_query
+                                 ):
       """
-      Formats mol_query for COCONUT molecule search,
-      with molecule properties included.
+      Converts molecule_query to json for COCONUT molecule search.
       """
 
-      field = list(mol_query.keys())[0]
-      search_json = {
-                     "search": {
-                                "filters": [
-                                            {
-                                             "field" : field,
-                                             "operator" : "=",
-                                             "value" : mol_query[field]
-                                            }
-                                           ],
-                                "includes": [
-                                             {
-                                              "relation": "properties"
-                                             }
-                                            ]
-                               }
-                    }
+      field = list(molecule_query.keys())[0]
+      molecule_search_json = {
+                              "search": {
+                                         "filters": [
+                                                     {
+                                                      "field" : field,
+                                                      "operator" : "=",
+                                                      "value" : molecule_query[field]
+                                                     }
+                                                    ],
+                                         "includes": [
+                                                      {
+                                                       "relation": "properties"
+                                                      }
+                                                     ]
+                                        }
+                              }
 
-      return search_json
+      return molecule_search_json
+
+
+   def get_allCollections(self):
+      """
+      Retrieves information for all COCONUT molecules.
+      """
+      # page info
+      curr_pg = 1
+      limit = 50
+
+      all_molecule_data = []
+      while True:
+         # request
+         all_molecule_req = {
+                             "search": {
+                                        "filters": [],
+                                        "page": curr_pg,
+                                        "limit": limit
+                                        }
+                             }
+         all_molecule_json = self._post(
+                                        endpoint = "molecules/search",
+                                        json_body = all_molecule_req
+                                        )
+
+         # data
+         pg_data = all_molecule_json.get(
+                                         "data",
+                                         []
+                                         )
+         if not pg_data:
+            break
+         all_molecule_data.extend(
+                                  pg_data
+                                  )
+
+         # progress
+         total = all_molecule_json.get(
+                                       "total",
+                                       len(all_molecule_data)
+                                       )
+         if curr_pg * limit >= total:
+            break
+         curr_pg += 1
+
+      return all_molecule_data

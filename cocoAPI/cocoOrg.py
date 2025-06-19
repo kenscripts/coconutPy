@@ -10,171 +10,132 @@ class cocoOrg(
       # inherits session, api_url
       super().__init__(cocoLog)
 
-      # attributes
-      self.org_get_res= {}
-      self.org_search_fields = []
-      self.get_orgResponse() # run automatically
-      self.org_search_req = {
-                             "search": {
-                                        "scopes": [],
-                                        "filters": [
-                                                    {
-                                                     "field": "name",
-                                                     "operator": "=",
-                                                     "value": ""
-                                                     },
-                                                    {
-                                                     "field": "iri",
-                                                     "operator": "=",
-                                                     "value": ""
-                                                     },
-                                                    {
-                                                     "field": "rank",
-                                                     "operator": "=",
-                                                     "value": ""
-                                                     },
-                                                    {
-                                                     "field": "molecule_count",
-                                                     "operator": "=",
-                                                     "value": ""
-                                                     }
-                                                   ],
-                                        "sorts": [
-                                                  {
-                                                   "field": "name",
-                                                   "direction": "desc"
-                                                   },
-                                                  {
-                                                   "field": "iri",
-                                                   "direction": "desc"
-                                                   },
-                                                  {
-                                                   "field": "rank",
-                                                   "direction": "desc"
-                                                   },
-                                                  {
-                                                   "field": "molecule_count",
-                                                   "direction": "desc"
-                                                   }
-                                                  ],
-                                        "selects": [
-                                                    {
-                                                     "field": "name"
-                                                     },
-                                                    {
-                                                     "field": "iri"
-                                                     },
-                                                    {
-                                                     "field": "rank"
-                                                     },
-                                                    {
-                                                     "field": "molecule_count"
-                                                     }
-                                                    ],
-                                        "includes": [],
-                                        "aggregates": [],
-                                        "instructions": [],
-                                        "gates": [
-                                                  "create",
-                                                  "update",
-                                                  "delete"
-                                                  ],
-                                        "page": 1,
-                                        "limit": 10
-                                        }
-                     }
+      # request attributes
+      self.get_organismRequestJson() # run automatically
 
 
-   def get_orgResponse(
-                       self
-                       ):
+   def get_organismRequestJson(
+                               self
+                               ):
       """
-      Fetches /organisms metadata (e.g. search fields).
-      Stores the response and a list of available search fields.
-      Automatically run once cocoOrg is created.
+      GET method for COCONUT organisms resource.
       """
-      # get response
-      org_get = f"{self.api_url}/organisms"
-      org_get_res = self.session.get(
-                                     url = org_get
-                                     )
-      org_get_res.raise_for_status()
-
-      # set response as attributes
-      self.org_get_res = org_get_res.json()
-      self.org_search_fields = self.org_get_res["data"]["fields"]
-
-
-   def orgSearch(
-                 self,
-                 org_query_df
-                 ):
-      """
-      Posts to /organisms/search and returns the json response.
-      """
-      # guards
-      #if not isinstance(
-      #                  org_query_df,
-      #                  dict
-      #                  ):
-      #   raise TypeError("org_query_df must be a dictionary of field:value.")
-      #if len(org_query) != 1:
-      #   raise ValueError("org_query must contain exactly one field:value pair.")
-      #field = list(org_query.keys())[0]
-      #if field not in self.org_search_fields:
-      #   raise KeyError(
-      #                  f"Field {org_query.items()} is not valid.Valid fields are: {self.org_search_fields}"
-      #                  )
-
-
-      # get response
-      org_search_post = f"{self.api_url}/organisms/search"
-      self.update_orgSearch(
-                            org_query_df
-                            )
-      org_search_res = self.session.post(
-                                         url = org_search_post,
-                                         json = self.org_search_req
+      self.organism_get_json = self._get(
+                                         endpoint = "organisms"
                                          )
-      org_search_res.raise_for_status()
 
-      # return response as json
-      return org_search_res.json() # allows for multiple searches with class instance
+      self.organism_search_fields = self.organism_get_json["data"]["fields"]
 
 
-   def update_orgSearch(
-                        self,
-                        org_query_df
+   def organismSearch(
+                      self,
+                      organism_query
+                      ):
+      """
+      Performs COCONUT organism search and returns the json response.
+      """
+
+      # validate dtype
+      if not isinstance(
+                        organism_query,
+                        dict
                         ):
+         raise TypeError(
+                         "organism_query must be a dictionary of field:value."
+                         )
+
+      # validate length
+      if len(organism_query) != 1:
+         raise ValueError(
+                          "organism_query must contain exactly one field:value pair."
+                          )
+
+      # validate keys
+      field = list(
+                   organism_query.keys()
+                   )[0]
+      if field not in self.organism_search_fields:
+         raise KeyError(
+                        f"{field} is not a valid field. Valid fields are: {self.organism_search_fields}"
+                        )
+
+      # build search query
+      self.organism_search_json = self.create_organismSearch_req(
+                                                                 organism_query
+                                                                 )
+ 
+      # execute search query
+      return self._post(
+                        endpoint = "organisms/search",
+                        json_body = self.organism_search_json
+                        )
+
+
+   def create_organismSearch_req(
+                                 self,
+                                 organism_query
+                                 ):
       """
-      Updates organism search request using values in org_query_df.
+      Converts organism_query to json for COCONUT organism search.
       """
 
-      #field = list(org_query.keys())[0]
-      #search_json = {
-      #               "search": {
-      #                          "filters": [
-      #                                      {
-      #                                       "field" : field,
-      #                                       "operator" : "=",
-      #                                       "value" : org_query[field]
-      #                                       }
-      #                                      ],
-      #                          }
-      #               }
-      #return search_json
-      #search_filter = [
-      #                 {
-      #                  "field": key,
-      #                  "operator": "=",
-      #                  "value": value
-      #                  }
-      #                  for key, value in org_query.items()
-      #                 ]
-      for i,row in org_query_df.iterrows():
-         key = row["search_key"]
-         field = row["field"]
-         value = row["value"]
-         for item in self.org_search_req["search"][key]:
-            if item.get("field") == field:
-               item["value"] = value
+      field = list(organism_query.keys())[0]
+      organism_search_json = {
+                              "search": {
+                                         "filters": [
+                                                     {
+                                                      "field" : field,
+                                                      "operator" : "=",
+                                                      "value" : organism_query[field]
+                                                      }
+                                                     ]
+                                         }
+                              }
+
+      return organism_search_json
+
+
+   def get_allOrganisms(self):
+      """
+      Retrieves information for all COCONUT organisms.
+      """
+      # page info
+      curr_pg = 1
+      limit = 50
+  
+      all_organism_data = []
+      while True:
+         # request
+         all_organism_req = {
+                             "search": {
+                                        "filters": [],
+                                        "page": curr_pg,
+                                        "limit": limit
+                                        }
+                             }
+         all_organism_json = self._post(
+                                        endpoint = "organisms/search",
+                                        json_body = all_organism_req
+                                        )
+
+         # data
+         pg_data = all_organism_json.get(
+                                         "data",
+                                         []
+                                         )
+         if not pg_data:
+            break
+         all_organism_data.extend(
+                                  pg_data
+                                  )
+
+         # progress
+         total = all_organism_json.get(
+                                       "total",
+                                       len(all_organism_data)
+                                       )
+         if curr_pg * limit >= total:
+            break
+         curr_pg += 1
+
+      return all_organism_data

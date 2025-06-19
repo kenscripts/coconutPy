@@ -10,32 +10,29 @@ class cocoCollect(
       # inherits session, api_url
       super().__init__(cocoLog)
 
-      # search attributes
-      self.collection_request_json = {}
-      self.get_collectionRequest_json() # run automatically
+      # request attributes
+      self.get_collectionRequestJson() # run automatically
 
 
-   def get_collectionRequest_json(
-                                  self
-                                  ):
+   def get_collectionRequestJson(
+                                 self
+                                 ):
       """
-      Fetches /collection metadata (e.g. search fields).
-      Automatically run once cocoCollect is created.
+      GET method for COCONUT collections resource.
       """
+      self.collection_get_json = self._get(
+                                           endpoint = "collections"
+                                           )
 
-      self.collection_request_json = self._get(
-                                               endpoint = "collections"
-                                               )
-
-      self.collection_search_fields = self.collection_request_json["data"]["fields"]
+      self.collection_search_fields = self.collection_get_json["data"]["fields"]
 
 
-   def collectSearch(
-                     self,
-                     collection_query
-                     ):
+   def collectionSearch(
+                        self,
+                        collection_query
+                        ):
       """
-      Posts to /molecules/search and returns the json response.
+      Performs COCONUT collection search and returns the json response.
       """
 
       # validate dtype
@@ -54,78 +51,91 @@ class cocoCollect(
                           )
 
       # validate keys
-      field = list(collection_query.keys())[0]
+      field = list(
+                   collection_query.keys()
+                   )[0]
       if field not in self.collection_search_fields:
          raise KeyError(
-                        f"Field {collection_query.items()} is not valid. Valid fields are: {self.collection_search_fields}"
+                        f"{field} is not a valid field. Valid fields are: {self.collection_search_fields}"
                         )
 
-      # build and execute search query
-      collection_search_json = self.create_collectSearch_req(
-                                                             collection_query
-                                                             )
+      # build search query
+      self.collection_search_json = self.create_collectSearch_req(
+                                                                  collection_query
+                                                                  )
  
-      # allows for multiple searches with class instance
+      # execute search query
       return self._post(
                         endpoint = "collections/search",
-                        json_body = collection_search_json
+                        json_body = self.collection_search_json
                         )
 
-   def create_collectSearch_req(
-                                self,
-                                collection_query
-                                ):
+
+   def create_collectionSearch_req(
+                                   self,
+                                   collection_query
+                                   ):
       """
-      Formats collection_query for COCONUT molecule search,
-      with molecule properties included.
+      Converts collection_query to json for COCONUT collection search.
       """
 
       field = list(collection_query.keys())[0]
-      search_json = {
-                     "search": {
-                                "filters": [
-                                            {
-                                             "field" : field,
-                                             "operator" : "=",
-                                             "value" : collection_query[field]
-                                             }
-                                            ]
+      collection_search_json = {
+                                "search": {
+                                           "filters": [
+                                                       {
+                                                        "field" : field,
+                                                        "operator" : "=",
+                                                        "value" : collection_query[field]
+                                                        }
+                                                       ]
+                                           }
                                 }
-                     }
 
-      return search_json
+      return collection_search_json
 
 
-   def get_all_collections(self):
-      endpoint = f"{self.api_url}/collections/search"
-      all_data = []
-      page = 1
+   def get_allCollections(self):
+      """
+      Retrieves information for all COCONUT collections.
+      """
+      # page info
+      curr_pg = 1
       limit = 50
   
+      all_collection_data = []
       while True:
-         payload = {
-                    "search": {
-                               "filters": [],
-                               "page": page,
-                               "limit": limit
+         # request
+         all_collection_req = {
+                               "search": {
+                                          "filters": [],
+                                          "page": curr_pg,
+                                          "limit": limit
+                                          }
                                }
-                    }
+         all_collection_json = self._post(
+                                          endpoint = "collections/search",
+                                          json_body = all_collection_req
+                                          )
 
-         res = self.session.post(url=endpoint, json=payload)
-         res.raise_for_status()
-         res_json = res.json()
-
-         page_data = res_json.get("data", [])
-         if not page_data:
+         # data
+         pg_data = all_collection_json.get(
+                                           "data",
+                                           []
+                                           )
+         if not pg_data:
             break
- 
-         all_data.extend(page_data)
- 
-         total = res_json.get("total", len(all_data))
-         if page * limit >= total:
+         all_collection_data.extend(
+                                    pg_data
+                                    )
+
+         # progress
+         total = all_collection_json.get(
+                                         "total",
+                                         len(all_collection_data)
+                                         )
+         if curr_pg * limit >= total:
             break
- 
-         page += 1
+         curr_pg += 1
 
-      return all_data
-
+      return all_collection_data
