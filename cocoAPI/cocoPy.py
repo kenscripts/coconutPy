@@ -2,6 +2,7 @@ from cocoAPI.cocoLog import cocoLog
 from cocoAPI.cocoMol import cocoMol
 from cocoAPI.cocoOrg import cocoOrg
 from cocoAPI.cocoSearch import cocoSearch
+from cocoAPI.cocoCollect import cocoCollect
 
 class cocoPy:
    def __init__(
@@ -19,3 +20,4 @@ class cocoPy:
       self.mol = cocoMol(self._cocoLog)
       self.org = cocoOrg(self._cocoLog)
       self.search = cocoSearch(self._cocoLog)
+      self.collect = cocoCollect(self._cocoLog)
