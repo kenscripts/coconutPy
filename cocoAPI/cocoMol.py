@@ -1,4 +1,6 @@
 from cocoAPI.cocoBase import cocoBase
+from cocoAPI.default_search_requests import default_molecule_search_req
+
 
 class cocoMol(
               cocoBase
@@ -12,6 +14,7 @@ class cocoMol(
 
       # request attributes
       self.get_moleculeRequestJson() # run automatically
+      self.default_search_req = default_molecule_search_req
 
 
    def get_moleculeRequestJson(
@@ -59,15 +62,15 @@ class cocoMol(
                         )
 
       # build search query
-      self.molecule_search_json = self.create_moleculeSearch_req(
-                                                                 molecule_query
-                                                                 )
+      self.molecule_search_req = self.create_moleculeSearch_req(
+                                                                molecule_query
+                                                                )
 
       # execute search query
-      return self._post(
-                        endpoint = "molecules/search",
-                        json_body = self.molecule_search_json
-                        )
+      return self._paginateData(
+                                endpoint = "molecules/search",
+                                json_body = self.molecule_search_req
+                                )
 
 
    def create_moleculeSearch_req(
@@ -79,29 +82,29 @@ class cocoMol(
       """
 
       field = list(molecule_query.keys())[0]
-      molecule_search_json = {
-                              "search": {
-                                         "filters": [
+      molecule_search_req = {
+                             "search": {
+                                        "filters": [
+                                                    {
+                                                     "field" : field,
+                                                     "operator" : "=",
+                                                     "value" : molecule_query[field]
+                                                    }
+                                                   ],
+                                        "includes": [
                                                      {
-                                                      "field" : field,
-                                                      "operator" : "=",
-                                                      "value" : molecule_query[field]
+                                                      "relation": "properties"
                                                      }
-                                                    ],
-                                         "includes": [
-                                                      {
-                                                       "relation": "properties"
-                                                      }
-                                                     ]
-                                        }
-                              }
+                                                    ]
+                                       }
+                             }
 
-      return molecule_search_json
+      return molecule_search_req
 
 
-   def get_allCollections(self):
+   def get_allMolecules(self):
       """
-      Retrieves information for all COCONUT molecules.
+      Retrieves data for all COCONUT molecules.
       """
       # page info
       curr_pg = 1
@@ -128,17 +131,17 @@ class cocoMol(
                                          []
                                          )
          if not pg_data:
+            print(
+                  f"Warning: Empty data returned on page {curr_pg}. Pagination stoppedy."
+                  )
             break
          all_molecule_data.extend(
                                   pg_data
                                   )
 
          # progress
-         total = all_molecule_json.get(
-                                       "total",
-                                       len(all_molecule_data)
-                                       )
-         if curr_pg * limit >= total:
+         last_pg  = all_molecule_json["last_page"]
+         if curr_pg == last_pg:
             break
          curr_pg += 1
 

@@ -12,6 +12,7 @@ class cocoOrg(
 
       # request attributes
       self.get_organismRequestJson() # run automatically
+      self.default_search_req = {}
 
 
    def get_organismRequestJson(

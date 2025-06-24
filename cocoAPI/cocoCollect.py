@@ -1,4 +1,5 @@
 from cocoAPI.cocoBase import cocoBase
+from cocoAPI.default_search_requests import default_collection_search_req
 
 class cocoCollect(
                   cocoBase
@@ -12,6 +13,7 @@ class cocoCollect(
 
       # request attributes
       self.get_collectionRequestJson() # run automatically
+      self.default_search_req = default_collection_search_req
 
 
    def get_collectionRequestJson(
@@ -60,15 +62,15 @@ class cocoCollect(
                         )
 
       # build search query
-      self.collection_search_json = self.create_collectSearch_req(
-                                                                  collection_query
-                                                                  )
+      self.collection_search_req = self.create_collectionSearch_req(
+                                                                    collection_query
+                                                                    )
  
       # execute search query
-      return self._post(
-                        endpoint = "collections/search",
-                        json_body = self.collection_search_json
-                        )
+      return self._paginateData(
+                                endpoint = "collections/search",
+                                json_body = self.collection_search_req
+                                )
 
 
    def create_collectionSearch_req(
@@ -80,24 +82,24 @@ class cocoCollect(
       """
 
       field = list(collection_query.keys())[0]
-      collection_search_json = {
-                                "search": {
-                                           "filters": [
-                                                       {
-                                                        "field" : field,
-                                                        "operator" : "=",
-                                                        "value" : collection_query[field]
-                                                        }
-                                                       ]
-                                           }
-                                }
+      collection_search_req = {
+                               "search": {
+                                          "filters": [
+                                                      {
+                                                       "field" : field,
+                                                       "operator" : "=",
+                                                       "value" : collection_query[field]
+                                                       }
+                                                      ]
+                                          }
+                               }
 
-      return collection_search_json
+      return collection_search_req
 
 
    def get_allCollections(self):
       """
-      Retrieves information for all COCONUT collections.
+      Retrieves data for all COCONUT collections.
       """
       # page info
       curr_pg = 1
@@ -117,24 +119,22 @@ class cocoCollect(
                                           endpoint = "collections/search",
                                           json_body = all_collection_req
                                           )
-
          # data
          pg_data = all_collection_json.get(
                                            "data",
                                            []
                                            )
-         if not pg_data:
+         if not pg_data: # guard against empty pages
+            print(
+                  f"Warning: Empty data returned on page {curr_pg}. Pagination stoppedy."
+                  )
             break
          all_collection_data.extend(
                                     pg_data
                                     )
-
          # progress
-         total = all_collection_json.get(
-                                         "total",
-                                         len(all_collection_data)
-                                         )
-         if curr_pg * limit >= total:
+         last_pg = all_collection_json["last_page"]
+         if curr_pg == last_pg:
             break
          curr_pg += 1
 
