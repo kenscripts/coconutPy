@@ -1,12 +1,10 @@
 # coconutPy
 Under construction.
 
-## Login
+## Class Overview
 
-## Search by Molecule
+### Get Class
 
-## Search by Organism
+### Search Class
 
-## Search by Property
-
-## Search by Collection
+### Advanced Search Class
