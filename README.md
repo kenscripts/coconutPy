@@ -1,10 +1,10 @@
 # coconutPy
 Under construction.
 
-## Class Overview
+# Class Overview
 
-### Get Class
+## Get Class
 
-### Search Class
+## Search Class
 
-### Advanced Search Class
+## Advanced Search Class
