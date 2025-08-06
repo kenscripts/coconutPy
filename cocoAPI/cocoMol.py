@@ -1,5 +1,6 @@
 from cocoAPI.cocoBase import cocoBase
 from cocoAPI.default_search_requests import default_molecule_search_req
+import copy
 
 
 class cocoMol(
@@ -14,7 +15,7 @@ class cocoMol(
 
       # request attributes
       self.get_moleculeRequestJson() # run automatically
-      self.default_search_req = default_molecule_search_req
+      self.default_molecule_search_req = default_molecule_search_req
 
 
    def get_moleculeRequestJson(
@@ -100,6 +101,91 @@ class cocoMol(
                              }
 
       return molecule_search_req
+
+   def create_moleculeSearch_req(
+                                self,
+                                molecule_query
+                                ):
+      """
+      Creates molecule search request using a structured list of updates.
+
+      Parameters
+      ----------
+      molecule_query: list of [key, subkey, value]
+         Each entry modifies the 'search' body of the request.
+         - If key is 'filters', 'sorts', or 'selects', subkey is used.
+         - If key is 'page' or 'limit', subkey should be None.
+   
+      Returns
+      -------
+      dict
+         Updated molecule search request.
+      """
+      
+      molecule_search_req = copy.deepcopy(
+                                          self.default_molecule_search_req
+                                          )
+      if not isinstance(
+                        molecule_query,
+                        list
+                        ):
+         raise TypeError(
+                         "`molecule_query` must be a list of [key, subkey, value]"
+                         )
+      for item in molecule_query:
+      ### use key to determine length of subkeys and if it matches with list len
+      ### len(default_search_req["key"]) == sum(x is not None for x in my_list[minus 1st key])
+      ### if sum(item) == 2
+         search_req["search"]["key"]["value"]
+      ### if sum(item) == 3
+         search_req["search"]["subkey"]["value"]
+         if not isinstance(
+                           item,
+                           (list, tuple)
+                           ) or len(item) != 3:
+            raise ValueError(
+                             "Each query item must be a 3-element list: [key, subkey, value]"
+                             )
+         key, subkey, value = item
+         if key in ["filters", "sorts", "selects"]:
+            if subkey is None:
+               raise ValueError(f"`{key}` requires a subkey")
+            if key == "filters":
+               updated_req["search"].setdefault(
+                                                "filters",
+                                                []
+                                                ).append(
+                                                         {
+                                                          "field": subkey,
+                                                          "operator": "=",
+                                                          "value": value
+                                                          }
+                                                         )
+            elif key == "sorts":
+               updated_req["search"].setdefault(
+                                                "sorts",
+                                                []
+                                                ).append(
+                                                         {
+                                                          "field": subkey,
+                                                          "direction": value
+                                                          }
+                                                         )
+            elif key == "selects":
+               updated_req["search"].setdefault(
+                                                "selects", []
+                                                ).append(
+                                                         {
+                                                          "field": subkey
+                                                          }
+                                                         )
+
+         else:
+            # Simple key like "page", "limit"
+            updated_req["search"][key] = value
+
+      return updated_req
+
 
 
    def get_allMolecules(self):
