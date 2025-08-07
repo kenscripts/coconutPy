@@ -1,22 +1,47 @@
+# Load
+```
 from cocoAPI.cocoPy import cocoPy
+```
+
+# Login
+Enter email and password to login.
+This can be done manually or by saving credentials to env
+```
+# get email and password from env 
+EMAIL = os.getenv(
+                  "COCONUT_EMAIL"
+                  )
+PSSWD = os.getenv(
+                  "COCONUT_PASSWORD"
+                  )
 
 # login
 coco = cocoPy(
-              email = "<>",
-              password = "<>"
+              email = EMAIL,
+              password = PSSWD
               )
+```
 
 
-# molecule search
-MOL_QUERY = {
-             "name":"Ferutidin"
-             }
-coco.mol.molSearch(
-                   MOL_QUERY
-                   )
+# Get
+Retrieve resource details including fields
+```
+coco.get.searchFields(
+                      get_endpoint = "properties"
+                      )
+```
+
+# Search
+coco.mol.Search(
+                [
+                 ["filters","name","Ferutidin"],
+                 ["selects","standard_inchi_key",None]
+                 ]
+                )
 
 
-# advanced search (tag-based; organisms)
+# Advanced Search
+## Tag-based (organisms)
 coco.search.update_advSearch_req(
                                  search_type = "tags",
                                  tag_query = {
@@ -29,7 +54,7 @@ coco.search.update_advSearch_req(
 coco.search.advSearch()
                                  
 
-# advanced search (filter-based)
+## Filter-based[kk
 coco.search.update_advSearch_req(
                                  search_type = "filters",
                                  filter_query = [
@@ -45,10 +70,3 @@ coco.search.advSearch()
 # search all collections
 coco.collect.get_allCollections()
 
-# Get Class
-Return search fields available for each resource.
-```
-coco.get.searchFields(
-                      get_endpoint = "properties"
-                      )
-```

@@ -102,12 +102,12 @@ class cocoMol(
       search_query: list of [key, field, value]
          Each entry modifies the 'search' body of the request.
          - If key is 'filters', 'sorts', or 'selects', field is used.
-         - If key is 'page' or 'limit', field should be None.
+         - If key is does not have field then field should be None.
    
       Returns
       -------
       dict
-         Updated molecule search request.
+         Search request.
       """
       # check validation
       if not isinstance(
@@ -117,17 +117,11 @@ class cocoMol(
          raise TypeError(
                          "`search_query` must be a list of [key, field, value]"
                          )
-      # search_template
-      search_query_req = copy.deepcopy(
-                                       self.default_molecule_search_req
-                                       )
+      # init search_request
+      search_req = {
+                    "search": {}
+                    }
       for entry in search_query:
-         # use key to determine length of subkeys and if it matches with list len
-         # len(default_search_req["key"]) == sum(x is not None for x in my_list[minus 1st key])
-         # if sum(item) == 2
-         #query_search_req["search"]["key"]["value"]
-         # if sum(item) == 3
-         #query_search_req["search"]["subkey"]["value"]
          if not isinstance(
                            entry,
                            (list, tuple)
@@ -137,41 +131,49 @@ class cocoMol(
                              )
          key, field, value = entry
          if key in ["filters", "sorts", "selects"]:
+            if field is None:
+                raise ValueError(
+                                 f"`{key}` requires a field"
+                                 )
             if key == "filters":
-               search_query_req["search"].setdefault(
-                                                     "filters",
-                                                     []
-                                                     ).append(
-                                                              {
-                                                               "field": field,
-                                                               "operator": "=",
-                                                               "value": value
-                                                               }
-                                                              )
+               search_req["search"].setdefault(
+                                               "filters",
+                                               []
+                                               ).append(
+                                                        {
+                                                         "field": field,
+                                                         "operator": "=",
+                                                         "value": value
+                                                         }
+                                                        )
             elif key == "sorts":
-               search_query_req["search"].setdefault(
-                                                     "sorts",
-                                                     []
-                                                     ).append(
-                                                              {
-                                                               "field": field,
-                                                               "direction": value
-                                                               }
-                                                              )
+               # add check for value
+               search_req["search"].setdefault(
+                                               "sorts",
+                                               []
+                                               ).append(
+                                                        {
+                                                         "field": field,
+                                                         "direction": value
+                                                         }
+                                                         )
             elif key == "selects":
-               search_query_req["search"].setdefault(
-                                                     "selects", []
-                                                     ).append(
-                                                              {
-                                                               "field": field
-                                                               }
-                                                              )
-
+               # add check to make sure value is None
+               search_req["search"].setdefault(
+                                               "selects", []
+                                               ).append(
+                                                        {
+                                                         "field": field
+                                                         }
+                                                        )
          else:
+            if field is not None:
+               raise ValueError(
+                                f"`{key}` doesn't require a field. field should be None"
+                                )
             # simple key like "page", "limit"
-            search_query_req["search"][key] = value
-         print(search_query_req)
-      return search_query_req
+            search_req["search"][key] = value
+      return search_req
 
 
    def Search(
@@ -190,14 +192,3 @@ class cocoMol(
                                 endpoint = "molecules/search",
                                 json_body = self.search_req
                                 )
-
-
-   def set_fieldValue(
-                      key_dictionary,
-                      field, 
-                      value
-                      ):
-      for entry in key_dictionary:
-         if entry["field"] == field:
-            entry["value"] = value
-            return
