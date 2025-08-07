@@ -44,3 +44,11 @@ coco.search.advSearch()
 
 # search all collections
 coco.collect.get_allCollections()
+
+# Get Class
+Return search fields available for each resource.
+```
+coco.get.searchFields(
+                      get_endpoint = "properties"
+                      )
+```

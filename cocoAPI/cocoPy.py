@@ -3,6 +3,8 @@ from cocoAPI.cocoMol import cocoMol
 from cocoAPI.cocoOrg import cocoOrg
 from cocoAPI.cocoSearch import cocoSearch
 from cocoAPI.cocoCollect import cocoCollect
+from cocoAPI.cocoGet import cocoGet
+
 
 class cocoPy:
    def __init__(
@@ -16,8 +18,8 @@ class cocoPy:
                           email = email,
                           password = password
                           )
-
       self.mol = cocoMol(self._cocoLog)
       self.org = cocoOrg(self._cocoLog)
       self.search = cocoSearch(self._cocoLog)
       self.collect = cocoCollect(self._cocoLog)
+      self.get = cocoGet(self._cocoLog)
