@@ -1,10 +1,10 @@
 # coconutPy
-Under construction.
+A Python wrapper for the COCONUT natural product database REST API.
 
-# Class Overview
+# Usage
+See docs.
 
-## Get Class
+# Citation
 
-## Search Class
-
-## Advanced Search Class
+# References
+Coconut Database
