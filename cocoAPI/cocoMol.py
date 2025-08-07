@@ -14,20 +14,7 @@ class cocoMol(
       super().__init__(cocoLog)
 
       # request attributes
-      self.get_moleculeRequestJson() # run automatically
       self.default_molecule_search_req = default_molecule_search_req
-
-
-   def get_moleculeRequestJson(
-                               self
-                               ):
-      """
-      GET method for COCONUT molecules resource.
-      """
-      self.molecule_get_json = self._get(
-                                         endpoint = "molecules"
-                                         )
-      self.molecule_search_fields = self.molecule_get_json["data"]["fields"]
 
 
    def moleculeSearch(

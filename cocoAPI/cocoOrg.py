@@ -11,21 +11,7 @@ class cocoOrg(
       super().__init__(cocoLog)
 
       # request attributes
-      self.get_organismRequestJson() # run automatically
       self.default_search_req = {}
-
-
-   def get_organismRequestJson(
-                               self
-                               ):
-      """
-      GET method for COCONUT organisms resource.
-      """
-      self.organism_get_json = self._get(
-                                         endpoint = "organisms"
-                                         )
-
-      self.organism_search_fields = self.organism_get_json["data"]["fields"]
 
 
    def organismSearch(

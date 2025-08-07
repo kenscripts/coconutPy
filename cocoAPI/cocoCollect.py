@@ -12,21 +12,7 @@ class cocoCollect(
       super().__init__(cocoLog)
 
       # request attributes
-      self.get_collectionRequestJson() # run automatically
       self.default_search_req = default_collection_search_req
-
-
-   def get_collectionRequestJson(
-                                 self
-                                 ):
-      """
-      GET method for COCONUT collections resource.
-      """
-      self.collection_get_json = self._get(
-                                           endpoint = "collections"
-                                           )
-
-      self.collection_search_fields = self.collection_get_json["data"]["fields"]
 
 
    def collectionSearch(
