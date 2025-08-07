@@ -36,7 +36,6 @@ class cocoCollect(
       """
       Performs COCONUT collection search and returns the json response.
       """
-
       # validate dtype
       if not isinstance(
                         collection_query,
@@ -45,13 +44,11 @@ class cocoCollect(
          raise TypeError(
                          "collection_query must be a dictionary of field:value."
                          )
-
       # validate length
       if len(collection_query) != 1:
          raise ValueError(
                           "collection_query must contain exactly one field:value pair."
                           )
-
       # validate keys
       field = list(
                    collection_query.keys()
@@ -60,12 +57,10 @@ class cocoCollect(
          raise KeyError(
                         f"{field} is not a valid field. Valid fields are: {self.collection_search_fields}"
                         )
-
       # build search query
       self.collection_search_req = self.create_collectionSearch_req(
                                                                     collection_query
                                                                     )
- 
       # execute search query
       return self._paginateData(
                                 endpoint = "collections/search",
@@ -80,7 +75,6 @@ class cocoCollect(
       """
       Converts collection_query to json for COCONUT collection search.
       """
-
       field = list(collection_query.keys())[0]
       collection_search_req = {
                                "search": {
@@ -101,41 +95,16 @@ class cocoCollect(
       """
       Retrieves data for all COCONUT collections.
       """
-      # page info
-      curr_pg = 1
-      limit = 50
-  
-      all_collection_data = []
-      while True:
-         # request
-         all_collection_req = {
-                               "search": {
-                                          "filters": [],
-                                          "page": curr_pg,
-                                          "limit": limit
-                                          }
-                               }
-         all_collection_json = self._post(
-                                          endpoint = "collections/search",
-                                          json_body = all_collection_req
-                                          )
-         # data
-         pg_data = all_collection_json.get(
-                                           "data",
-                                           []
-                                           )
-         if not pg_data: # guard against empty pages
-            print(
-                  f"Warning: Empty data returned on page {curr_pg}. Pagination stoppedy."
-                  )
-            break
-         all_collection_data.extend(
-                                    pg_data
-                                    )
-         # progress
-         last_pg = all_collection_json["last_page"]
-         if curr_pg == last_pg:
-            break
-         curr_pg += 1
-
+      # request json 
+      all_collection_req = {
+                            "search": {
+                                       "filters": [],
+                                       "page": 1
+                                       }
+                            }
+      # request data
+      all_collection_data = self._paginateData(
+                                               endpoint = "collections/search",
+                                               json_body = all_collection_req
+                                               )
       return all_collection_data

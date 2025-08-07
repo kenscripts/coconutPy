@@ -40,3 +40,7 @@ coco.search.update_advSearch_req(
                                                  ]
                                  )
 coco.search.advSearch()
+
+
+# search all collections
+coco.collect.get_allCollections()
