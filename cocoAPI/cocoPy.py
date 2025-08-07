@@ -4,6 +4,7 @@ from cocoAPI.cocoOrg import cocoOrg
 from cocoAPI.cocoSearch import cocoSearch
 from cocoAPI.cocoCollect import cocoCollect
 from cocoAPI.cocoGet import cocoGet
+from cocoAPI.cocoAdvSearch import cocoAdvSearch
 
 
 class cocoPy:
@@ -18,8 +19,9 @@ class cocoPy:
                           email = email,
                           password = password
                           )
+      self.get = cocoGet(self._cocoLog)
       self.mol = cocoMol(self._cocoLog)
       self.org = cocoOrg(self._cocoLog)
-      self.search = cocoSearch(self._cocoLog)
       self.collect = cocoCollect(self._cocoLog)
-      self.get = cocoGet(self._cocoLog)
+      self.search = cocoSearch(self._cocoLog)
+      self.advSearch = cocoAdvSearch(self._cocoLog)

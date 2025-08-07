@@ -75,22 +75,3 @@ class cocoCollect(
                                }
 
       return collection_search_req
-
-
-   def get_allCollections(self):
-      """
-      Retrieves data for all COCONUT collections.
-      """
-      # request json 
-      all_collection_req = {
-                            "search": {
-                                       "filters": [],
-                                       "page": 1
-                                       }
-                            }
-      # request data
-      all_collection_data = self._paginateData(
-                                               endpoint = "collections/search",
-                                               json_body = all_collection_req
-                                               )
-      return all_collection_data

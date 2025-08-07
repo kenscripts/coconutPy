@@ -23,10 +23,10 @@ class cocoGet(
                        )
 
 
-   def searchFields(
-                    self,
-                    get_endpoint
-                    ):
+   def requestFields(
+                     self,
+                     get_endpoint
+                     ):
       return self._get(
                        endpoint = get_endpoint
                        )["data"]["fields"]
