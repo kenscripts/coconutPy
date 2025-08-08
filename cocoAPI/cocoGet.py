@@ -16,17 +16,17 @@ class cocoGet(
 
    def requestJson(
                    self,
-                   get_endpoint
+                   resource_endpoint
                    ):
       return self._get(
-                       endpoint = get_endpoint
+                       endpoint = resource_endpoint
                        )
 
 
    def requestFields(
                      self,
-                     get_endpoint
+                     resource_endpoint
                      ):
       return self._get(
-                       endpoint = get_endpoint
+                       endpoint = resource_endpoint
                        )["data"]["fields"]

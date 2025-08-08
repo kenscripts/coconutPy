@@ -1,6 +1,5 @@
 from cocoAPI.cocoBase import cocoBase
-from cocoAPI.default_search_requests import default_molecule_search_req
-import copy
+from cocoAPI.default_search_requests import default_molecules_search_req
 
 
 class cocoMol(
@@ -14,83 +13,29 @@ class cocoMol(
       super().__init__(cocoLog)
 
       # request attributes
-      self.default_molecule_search_req = default_molecule_search_req
+      self.default_molecule_search_req = default_molecules_search_req
 
 
-#   def moleculeSearch(
-#                      self,
-#                      molecule_query
-#                      ):
-#      """
-#      Performs COCONUT molecule search and returns the json response.
-#      """
-#
-#      # validate dtype
-#      if not isinstance(
-#                        molecule_query, 
-#                        dict
-#                        ):
-#         raise TypeError(
-#                         "molecule_query must be a dictionary of field:value."
-#                         )
-#
-#      # validate length
-#      if len(molecule_query) != 1:
-#         raise ValueError(
-#                          "molecule_query must contain exactly one field:value pair."
-#                          )
-#
-#      # validate keys
-#      field = list(
-#                   molecule_query.keys()
-#                   )[0]
-#      if field not in self.molecule_search_fields:
-#          raise KeyError(
-#                         f"{field} is not a valid field. Valid fields are: {self.molecule_search_fields}"
-#                         )
-#
-#      # build search query
-#      self.molecule_search_req = self.build_searchReq(
-#                                                      molecule_query
-#                                                      )
-#
-#      # execute search query
-#      return self._paginateData(
-#                                endpoint = "molecules/search",
-#                                json_body = self.molecule_search_req
-#                                )
+   def Search(
+              self,
+              resource_endpoint,
+              search_query
+              ):
+      """
+      Performs COCONUT search request and returns the json response.
+      """
+      # build search request
+      self.search_req = self._buildSearchReq(
+                                             search_query
+                                             )
+      # execute search request
+      return self._paginateData(
+                                endpoint = f"{resource_endpoint}/search",
+                                json_body = self.search_req
+                                )
 
 
-#   def create_moleculeSearch_req(
-#                                 self,
-#                                 molecule_query
-#                                 ):
-#      """
-#      Converts molecule_query to json for COCONUT molecule search.
-#      """
-#
-#      field = list(molecule_query.keys())[0]
-#      molecule_search_req = {
-#                             "search": {
-#                                        "filters": [
-#                                                    {
-#                                                     "field" : field,
-#                                                     "operator" : "=",
-#                                                     "value" : molecule_query[field]
-#                                                    }
-#                                                   ],
-#                                        "includes": [
-#                                                     {
-#                                                      "relation": "properties"
-#                                                     }
-#                                                    ]
-#                                       }
-#                             }
-#
-#      return molecule_search_req
-
-
-   def build_searchReq(
+   def _buildSearchReq(
                        self,
                        search_query
                        ):
@@ -174,21 +119,3 @@ class cocoMol(
             # simple key like "page", "limit"
             search_req["search"][key] = value
       return search_req
-
-
-   def Search(
-              self,
-              search_query
-              ):
-      """
-      Performs COCONUT search request and returns the json response.
-      """
-      # build search request
-      self.search_req = self.build_searchReq(
-                                             search_query
-                                             )
-      # execute search request
-      return self._paginateData(
-                                endpoint = "molecules/search",
-                                json_body = self.search_req
-                                )

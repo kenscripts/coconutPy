@@ -1,5 +1,5 @@
 from cocoAPI.cocoBase import cocoBase
-from cocoAPI.default_search_requests import default_collection_search_req
+from cocoAPI.default_search_requests import default_collections_search_req
 
 class cocoCollect(
                   cocoBase
@@ -12,7 +12,7 @@ class cocoCollect(
       super().__init__(cocoLog)
 
       # request attributes
-      self.default_search_req = default_collection_search_req
+      self.default_search_req = default_collections_search_req
 
 
    def collectionSearch(
