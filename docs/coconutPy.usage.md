@@ -46,13 +46,34 @@ coco.get.resourceFields(
 
 # Search COCONUT Resources
 Input is a list of entries. Each entry is a list of the format [`key`,`field`,`value`].
+
+
+To find keys for resource:
 ```
-coco.mol.Search(
-                [
-                 ["filters","name","Ferutidin"],
-                 ["selects","standard_inchi_key",None]
-                 ]
-                )
+# molecules resource
+coco.search.default_molecules_search_req["search"].keys()
+```
+
+To find fields for resource:
+```
+# molecules resource
+coco.get.resourceFields(
+                        resource_endpoint = "molecules"
+                        )
+```
+
+Perform search:
+```
+# molecules search
+# save search query as variable for readability
+mol_search_query = [
+                    ["filters","name","Ferutidin"],
+                    ["selects","standard_inchi_key",None] # selects key doesn't have values
+                    ]
+coco.search.Search(
+                   resource_endpoint = "molecules",
+                   search_query = mol_search_query
+                   )
 ```
 
 
