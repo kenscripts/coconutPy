@@ -1,10 +1,13 @@
 # Load Package
 ```
+import os
 from cocoAPI.cocoPy import cocoPy
 ```
 
 # Login to COCONUT Database
-To get login credentials, sign up on [COCONUT](https://coconut.naturalproducts.net/login).  
+To get login credentials, sign up on [COCONUT](https://coconut.naturalproducts.net/login).
+
+
 Enter email and password to login. This can be done manually or by saving credentials to ENVIRONMENT variable
 ```
 # get email and password from env 
