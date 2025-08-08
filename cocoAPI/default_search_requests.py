@@ -1,3 +1,8 @@
+# contains the default search request body from COCONUT RESTI API docs
+# contains info for advanced molecule search like request body, tags, and filters
+
+
+# citatons
 default_citations_search_req = {
                                 "search": {
                                            "scopes": [],
@@ -69,6 +74,7 @@ default_citations_search_req = {
                                 }
 
 
+# collections
 default_collections_search_req = {
                                   "search": {
                                              "scopes": [],
@@ -140,6 +146,7 @@ default_collections_search_req = {
                                   }
 
 
+# molecules
 default_molecules_search_req = {
                                 "search": {
                                            "scopes": [],
@@ -407,6 +414,7 @@ default_molecules_search_req = {
                                 }
 
 
+# organisms
 default_organisms_search_req = {
                                 "search": {
                                            "scopes": [],
@@ -478,6 +486,7 @@ default_organisms_search_req = {
                                 }
 
 
+# properites
 default_properties_search_req = {
                                  "search": {
                                             "scopes": [],
@@ -889,6 +898,7 @@ default_properties_search_req = {
                                  }
 
 
+# reports
 default_reports_search_req = {
                               "search": {
                                          "scopes": [],
@@ -956,6 +966,7 @@ default_reports_search_req = {
                               }         
 
 
+# advanced molecule search info
 adv_mol_search_info = {
                        "search" = {
                                    "type" : "",
