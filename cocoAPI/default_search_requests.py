@@ -1,4 +1,4 @@
-# contains the default search request body from COCONUT RESTI API docs
+# contains the default search request body from COCONUT REST API docs
 # contains info for advanced molecule search like request body, tags, and filters
 
 
