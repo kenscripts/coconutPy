@@ -1,5 +1,5 @@
 # coconutPy
-https://img.shields.io/github/repo-size/kenscripts/coconutPy?style=flat
+![GitHub repo size](https://img.shields.io/github/repo-size/kenscripts/coconutPy?style=flat)
 A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API.
 
 # Usage
