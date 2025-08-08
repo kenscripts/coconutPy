@@ -2,7 +2,7 @@
 A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API.
 
 # Usage
-See [docs](https://github.com/kenscripts/coconutPy/tree/main/docs).
+See [docs](https://github.com/kenscripts/coconutPy/blob/main/docs/coconutPy.usage.md)
 
 # References & Citation
 COCONUT Paper:  
