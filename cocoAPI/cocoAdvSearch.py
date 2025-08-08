@@ -1,4 +1,6 @@
 from cocoAPI.cocoBase import cocoBase
+from cocoAPI import default_search_requests
+
 
 class cocoAdvSearch(
                     cocoBase
@@ -9,38 +11,8 @@ class cocoAdvSearch(
                 ):
       # inherits session, api_url
       super().__init__(cocoLog)
-
-      # advSearch attributes
-      self.advSearch_req = {
-                            "type" : "",
-                            "tagType" : "",
-                            "query" : "",
-                            "limit" : "",
-                            "sort" : "",
-                            "page" : "",
-                            "offset" : ""
-                            }
-      self.advSearch_tag_keys = {
-                                 "dataSource",
-                                 "organisms",
-                                 "citations"
-                                 }
-      self.advSearch_filter_keys = {
-                                    # Molecular properties
-                                    "tac", "hac", "mw", "emw", "mrc", "vdwv", "fc",
-                                    # Chemical properties
-                                    "alogp", "topopsa", "fcsp3", "np", "qed",
-                                    # Structural features
-                                    "rbc", "arc", "hba", "hbd",
-                                    # Lipinski parameters
-                                    "lhba", "lhbd", "lro5v",
-                                    # Sugar-related
-                                    "cs", "crs", "cls",
-                                    # Classyfire classifications
-                                    "class", "subclass", "superclass", "parent",
-                                    # NP classifier
-                                    "np_pathway", "np_superclass", "np_class", "np_glycoside"
-                                    }
+      # default search request body
+      self.adv_mol_search_info = default_search_requests.adv_mol_search_info
 
 
    def update_advSearch_req(

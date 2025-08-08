@@ -954,3 +954,37 @@ default_reports_search_req = {
                                          "limit": 10
                                          }
                               }         
+
+
+adv_mol_search_info = {
+                       "search" = {
+                                   "type" : "",
+                                   "tagType" : "",
+                                   "query" : "",
+                                   "limit" : "",
+                                   "sort" : "",
+                                   "page" : "",
+                                   "offset" : ""
+                                   },
+                       "tags" = [
+                                 "dataSource",
+                                 "organisms",
+                                 "citations"
+                                 ],
+                       "filters" = [
+                                    # Molecular properties
+                                    "tac", "hac", "mw", "emw", "mrc", "vdwv", "fc",
+                                    # Chemical properties
+                                    "alogp", "topopsa", "fcsp3", "np", "qed",
+                                    # Structural features
+                                    "rbc", "arc", "hba", "hbd",
+                                    # Lipinski parameters
+                                    "lhba", "lhbd", "lro5v",
+                                    # Sugar-related
+                                    "cs", "crs", "cls",
+                                    # Classyfire classifications
+                                    "class", "subclass", "superclass", "parent",
+                                    # NP classifier
+                                    "np_pathway", "np_superclass", "np_class", "np_glycoside"
+                                    ]
+                       }
