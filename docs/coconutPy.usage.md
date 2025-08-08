@@ -4,9 +4,8 @@ from cocoAPI.cocoPy import cocoPy
 ```
 
 # Login to COCONUT Database
-To get login credentials, sign up on [COCONUT](https://coconut.naturalproducts.net/login).  \n
-Enter email and password to login.
-This can be done manually or by saving credentials to env
+To get login credentials, sign up on [COCONUT](https://coconut.naturalproducts.net/login).  
+Enter email and password to login. This can be done manually or by saving credentials to ENVIRONMENT variable
 ```
 # get email and password from env 
 EMAIL = os.getenv(
@@ -25,16 +24,25 @@ coco = cocoPy(
 
 
 # Get COCONUT Resource Details
-Retrieve resource details including fields
+COCONUT resources include: `citations`, `collections`, `molecules`, `organisms`, `properties`, and `reports`.
+
+To retrive resource details:
 ```
-coco.get.searchFields(
-                      get_endpoint = "properties"
+coco.get.resourceJson(
+                      resource_endpoint = "properties"
                       )
+```
+
+To retrieve resource fields
+```
+coco.get.resourceFields(
+                        resource_endpoint = "properties"
+                        )
 ```
 
 
 # Search COCONUT Resources
-Input is a list of lists. Each sub list specifies the `search key`, `field`, and `value`.
+Input is a list of entries. Each entry is a list of the format [`key`,`field`,`value`].
 ```
 coco.mol.Search(
                 [

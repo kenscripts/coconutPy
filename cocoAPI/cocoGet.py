@@ -14,19 +14,19 @@ class cocoGet(
       super().__init__(cocoLog)
 
 
-   def requestJson(
-                   self,
-                   resource_endpoint
-                   ):
+   def resourceJson(
+                    self,
+                    resource_endpoint
+                    ):
       return self._get(
                        endpoint = resource_endpoint
                        )
 
 
-   def requestFields(
-                     self,
-                     resource_endpoint
-                     ):
+   def resourceFields(
+                      self,
+                      resource_endpoint
+                      ):
       return self._get(
                        endpoint = resource_endpoint
                        )["data"]["fields"]
