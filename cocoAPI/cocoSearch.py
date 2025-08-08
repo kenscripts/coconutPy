@@ -67,13 +67,14 @@ class cocoSearch(
          raise TypeError(
                          "`search_query` must be a list of [key, field, value]"
                          )
-      # check keys
+      # use default search request to get keys & fields
       attr_name = f"default_{resource_endpoint}_search_req"
       resource_search_req = getattr(
                                     self,
                                     attr_name, 
                                     None
                                     )
+      # check keys
       resource_keys = resource_search_req["search"].keys()
       if not all(
                  entry[0] in resource_keys
@@ -98,6 +99,31 @@ class cocoSearch(
          raise ValueError(
                           f"fields must be a one of: {resource_fields}"
                           )
+      # check values
+      for entry in search_query:
+         if entry[0] == "select":
+            if not isinstance(
+                              entry[2],
+                              None
+                              ):
+               raise ValueError(
+                                f"for select entry, value must be None"
+                                )
+         if entry[0] == "page" or entry[0] == "limit":
+            if not isinstance(
+                              entry[1],
+                              None
+                              ):
+               raise ValueError(
+                                f"for `page` or `limit` key, field must be None"
+                                )
+            if not isinstance(
+                              entry[2],
+                              int
+                              ):
+               raise ValueError(
+                                f"for `page` or `limit` key, value must be integer"
+                                )
 
       
    def _buildSearchReq(
@@ -158,7 +184,6 @@ class cocoSearch(
                                                          }
                                                         )
             elif key == "sorts":
-               # add check for value
                search_req["search"].setdefault(
                                                "sorts",
                                                []
@@ -169,7 +194,6 @@ class cocoSearch(
                                                          }
                                                          )
             elif key == "selects":
-               # add check to make sure value is None
                search_req["search"].setdefault(
                                                "selects", []
                                                ).append(
