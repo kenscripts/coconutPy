@@ -183,57 +183,11 @@ class cocoAdvSearch(
    def advSearch(
                  self
                  ):
-      curr_pg = 1
-      all_data = []
+      return self._paginateData(
+                                endpoint = "search",
+                                json_body = self.advSearch_req
+                                )
 
-      # go through pages
-      while True:
-         # request
-         self.advSearch_req.update(
-                                   {
-                                    "page": curr_pg
-                                    }
-                                   )
-         adv_search_json = self._post(
-                                      endpoint = "search",
-                                      json_body = self.advSearch_req
-                                      )
-
- 
-         # request data
-         pg_data = adv_search_json.get(
-                                       "data", {}
-                                       )\
-                                  .get(
-                                       "data", []
-                                       )
-         if not pg_data:
-             break
-         all_data.extend(pg_data)
- 
-         # page progress
-         per_pg = adv_search_json.get(
-                                      "data"
-                                      )\
-                                 .get(
-                                      "per_page"
-                                      )
-         total_recs = adv_search_json.get(
-                                          "data"
-                                          )\
-                                     .get(
-                                          "total"
-                                          )
-         if curr_pg * per_pg >= total_recs:
-            break
-         print(
-               f"Retrieved {curr_pg * per_pg} of {total_recs} records",
-               end = "\r",
-               flush = True
-               )
-         curr_pg += 1
- 
-      return all_data
 
 
    def clear_advSearch_req(
