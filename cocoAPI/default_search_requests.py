@@ -968,7 +968,7 @@ default_reports_search_req = {
 
 # advanced molecule search info
 adv_mol_search_info = {
-                       "search" = {
+                       "search" : {
                                    "type" : "",
                                    "tagType" : "",
                                    "query" : "",
@@ -977,12 +977,12 @@ adv_mol_search_info = {
                                    "page" : "",
                                    "offset" : ""
                                    },
-                       "tags" = [
+                       "tags" : [
                                  "dataSource",
                                  "organisms",
                                  "citations"
                                  ],
-                       "filters" = [
+                       "filters" : [
                                     # Molecular properties
                                     "tac", "hac", "mw", "emw", "mrc", "vdwv", "fc",
                                     # Chemical properties

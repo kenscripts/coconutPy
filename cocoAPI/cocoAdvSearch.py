@@ -13,6 +13,7 @@ class cocoAdvSearch(
       super().__init__(cocoLog)
       # default search request body
       self.adv_mol_search_info = default_search_requests.adv_mol_search_info
+      self.advSearch_req = self.adv_mol_search_info["search"]
 
 
    def update_advSearch_req(
@@ -183,11 +184,65 @@ class cocoAdvSearch(
    def advSearch(
                  self
                  ):
-      return self._paginateData(
-                                endpoint = "search",
-                                json_body = self.advSearch_req
-                                )
+      # input
+      # assign page if not specified
+      if not self.advSearch_req.get("page"):
+         self.advSearch_req["page"] = 1
 
+      # paginate
+      all_data = []
+      while True:
+         # progress
+         curr_pg = self.advSearch_req["page"]
+
+         # request
+         adv_search_json = self._post(
+                                      endpoint = "search",
+                                      json_body = self.advSearch_req
+                                      )
+
+         # data
+         pg_data = adv_search_json.get(
+                                       "data", {}
+                                       )\
+                                  .get(
+                                       "data", []
+                                       )
+         if not pg_data:
+            print(
+                  f"Warning: Empty data returned on page {curr_pg}. Pagination stopped."
+                  )
+            break
+         all_data.extend(
+                         pg_data
+                         )
+
+         # update progress
+         per_pg = adv_search_json.get(
+                                      "data"
+                                      )\
+                                 .get(
+                                      "per_page"
+                                      )
+         total_recs = adv_search_json.get(
+                                          "data"
+                                          )\
+                                     .get(
+                                          "total"
+                                          )
+         curr_recs = curr_pg * per_pg
+         print(
+               f"Retrieved {curr_recs} of {total_recs} records",
+               end = "\r",
+               flush = True
+               )
+
+         # check progress
+         if curr_recs >= total_recs:
+            break
+         curr_pg += 1
+
+      return all_data
 
 
    def clear_advSearch_req(
