@@ -137,10 +137,7 @@ class cocoSearch(
                                 f"for select entry, value must be None"
                                 )
          if entry[0] == "page" or entry[0] == "limit":
-            if not isinstance(
-                              entry[1],
-                              None
-                              ):
+            if entry[1] is not None:
                raise ValueError(
                                 f"for `page` or `limit` key, field must be None"
                                 )
@@ -152,7 +149,7 @@ class cocoSearch(
                                 f"for `page` or `limit` key, value must be integer"
                                 )
 
-      
+
    def _buildSearchReq(
                        self,
                        resource_endpoint,
@@ -178,19 +175,8 @@ class cocoSearch(
                     "search": {}
                     }
       for entry in search_query:
-         if not isinstance(
-                           entry,
-                           (list, tuple)
-                           ) or len(entry) != 3:
-            raise ValueError(
-                             "Each entry must be a 3-element list: [key, field, value]"
-                             )
          key, field, value = entry
          if key in ["filters", "sorts", "selects"]:
-            if field is None:
-                raise ValueError(
-                                 f"`{key}` requires a field"
-                                 )
             if key == "filters":
                search_req["search"].setdefault(
                                                "filters",
@@ -220,13 +206,9 @@ class cocoSearch(
                                                          "field": field
                                                          }
                                                         )
-            else:
-               if field is not None:
-                  raise ValueError(
-                                   f"`{key}` doesn't require a field. field should be None"
-                                   )
-               # simple key like "page", "limit"
-               search_req["search"][key] = value
+         else:
+            # simple key like "page", "limit"
+            search_req["search"][key] = value
       return search_req
 
 
@@ -260,7 +242,7 @@ class cocoSearch(
                             }
       # request data
       all_collection_data = self._paginateData(
-                                               endpoint = f"{resource}/search",
+                                               endpoint = f"{resource_endpoint}/search",
                                                json_body = all_collection_req
                                                )
       return all_collection_data
