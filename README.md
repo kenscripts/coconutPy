@@ -1,5 +1,5 @@
 # coconutPy
-A Python wrapper for the COCONUT natural product database REST API.
+A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API.
 
 # Usage
 See [docs](https://github.com/kenscripts/coconutPy/tree/main/docs).
