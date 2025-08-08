@@ -31,6 +31,18 @@ class cocoSearch(
               ):
       """
       Performs COCONUT search request and returns the json response.
+
+      Parameters
+      ----------
+      resource_endpoint
+         COCONUT resource to search
+      search_query
+         List of entries, where each entry has format [key, field, value]
+
+      Returns
+      -------
+      dict
+         Complete results from Search request.
       """
       # check search request
       self._checkSearchQuery(
@@ -54,6 +66,21 @@ class cocoSearch(
                          resource_endpoint,
                          search_query
                          ):
+      """
+      Performs several checks on search_query to ensure correct format.
+
+      Parameters
+      ----------
+      resource_endpoint
+         COCONUT resource to search
+      search_query
+         List of entries, where each entry has format [key, field, value]
+
+      Returns
+      -------
+      error
+         Raises errors if found
+      """
       # check input structure
       if not isinstance(
                         search_query,
@@ -83,7 +110,7 @@ class cocoSearch(
          raise ValueError(
                           f"keys must be a one of: {resource_keys}"
                           )
-      # check fields
+      # check fields; list needed to append None
       resource_fields = list(
                              self._get(
                                        endpoint = resource_endpoint
@@ -132,28 +159,20 @@ class cocoSearch(
                        search_query
                        ):
       """
-      Builds search request using query list of specified actions. Checks input.
+      Builds search request from a query list of entries.
 
       Parameters
       ----------
-      search_query: list of [key, field, value]
-         Each entry modifies the 'search' body of the request.
-         - If key is 'filters', 'sorts', or 'selects', field is used.
-         - If key is does not have field then field should be None.
+      resource_endpoint
+         COCONUT resource to search
+      search_query
+         List of entries, where each entry has format [key, field, value]
 
       Returns
       -------
       dict
          Search request.
       """
-      # check validation
-      if not isinstance(
-                        search_query,
-                        list
-                        ):
-         raise TypeError(
-                         "`search_query` must be a list of [key, field, value]"
-                         )
       # init search_request
       search_req = {
                     "search": {}
@@ -213,9 +232,24 @@ class cocoSearch(
 
    def allRecords(
                   self,
-                  resource,
+                  resource_endpoint,
                   pg_limit = 25
                   ):
+      """
+      Get all records from COCONUT resource.
+
+      Parameters
+      ----------
+      resource_endpoint
+         COCONUT resource to search
+      pg_limit
+         Number of results per page
+
+      Returns
+      -------
+      dict
+         Complete results from Search request.
+      """
       # request json 
       all_collection_req = {
                             "search": {
