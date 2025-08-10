@@ -13,192 +13,157 @@ class cocoAdvSearch(
       super().__init__(cocoLog)
       # default search request body
       self.adv_mol_search_info = default_search_requests.adv_mol_search_info
-      self.advSearch_req = self.adv_mol_search_info["search"]
+      self.default_adv_mol_search_req = self.adv_mol_search_info["search"]
 
 
-   def update_advSearch_req(
+   def _checkAdvSearchQuery(
                             self,
-                            search_type = None,
-                            tag_query = None,
-                            filter_query = None,
-                            basic_query = None
+                            adv_search_query
                             ):
-      """
-      Posts to advanced molecule search endpoint and returns the JSON response.
-      """
-
-      empty_values = [
-                      None,
-                      "",
-                      [],
-                      {}
-                      ]
-
-
-      # determine which query types are non-empty
-      non_empty_queries = [
-                           query
-                           for query in (
-                                         tag_query,
-                                         filter_query,
-                                         basic_query
-                                         )
-                           if query
-                           ]
-      if len(non_empty_queries) > 1:
-         raise ValueError(
-                          f"Only one of `tag_query`, `filter_query`, or `basic_query` can be used per search."
-                          )
- 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Taq-Based Search
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      if tag_query is not None:
-         # validate tag search dtype
-         if not isinstance(
-                           tag_query,
-                           dict
-                           ):
-            raise TypeError(
-                            f"`tag_query` must be a dictionary with one key from {self.advSearch_tag_keys}"
-                            )
-
-         # tag must contain exactly one key-value pair
-         if len(tag_query) != 1:
-            raise ValueError(
-                             "`tag_query` must contain exactly one key-value pair"
-                             )
-
-         # validate tag search keys
-         invalid_tag_keys = [
-                             k
-                             for k in tag_query
-                             if k not in self.advSearch_tag_keys
-                             ]
-         if invalid_tag_keys:
-            raise KeyError(
-                           f"Invalid tag key(s): {invalid_tag_keys}. Valid keys are: {self.advSearch_tag_keys}"
-                           )
-
-         # validate tag search value
-         tag_type = next(
-                         iter(
-                              tag_query
-                              )
+      # check input structure
+      if not isinstance(
+                        adv_search_query,
+                        list
+                        ) or not all(
+                                     isinstance(
+                                                entry,
+                                                list
+                                                ) and len(entry) == 3
+                                     for entry in adv_search_query
+                                     ):
+         raise TypeError(
+                         "`adv_search_query` must be a list of [type, tag/filter, value]"
                          )
-         tag_value = tag_query[tag_type]
-         if not isinstance(
-                           tag_value,
-                           list
-                           ):
-            raise TypeError(
-                            f"Invalid tag search value. Must be a list of query terms"
-                            )
 
-         # build tag search query
-         self.advSearch_req.update(
-                                   {
-                                    "type" : search_type,
-                                    "tagType" : tag_type,
-                                    "query" : ",".join(
-                                                       tag_query[tag_type]
-                                                       )
-                                    }
-                                   )
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Filter-Based Search
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      elif filter_query is not None:
-         # validate filter search dtype
-         if not isinstance(
-                           filter_query,
-                           list
-                           ):
-            raise TypeError(
-                            "`filter_query` must be a list of dictionaries with keys from {self.advSearch_filter_keys}"
-                            )
-
-         # validate filter search dictionaries
-         # build filter search query
-         invalid_filter_keys = []
-         filter_query_strings = []
-         for d in filter_query:
-            if not isinstance(d, dict):
+      # data
+      valid_types = [
+                     "tags",
+                     "filters",
+                     "basic"
+                     ]
+      valid_tags = self.adv_mol_search_info["tags"]
+      valid_filters = self.adv_mol_search_info["filters"]
+      search_types = []
+      # go through entries
+      for entry in adv_search_query:
+         curr_search_type = entry[0]
+         curr_tag_filter = entry[1]
+         curr_search_value = entry[2]
+         search_types.append(
+                             curr_search_type
+                             )
+         # check type
+         if curr_search_type not in valid_types:
+            raise ValueError(
+                             f"Invalid type: {curr_search_type}. Valid types are: {valid_types}"
+                             )
+         # check tag
+         if curr_search_type == "tags":
+            if curr_tag_filter not in valid_tags:
+               raise ValueError(
+                                f"Invalid tag: {curr_tag_filter}. Valid tags are: {valid_tags}"
+                                )
+         # check filters
+         if curr_search_type == "filters":
+            if curr_tag_filter not in valid_filters:
+               raise ValueError(
+                                f"Invalid filter: {curr_tag_filter}. Valid filters are: {valid_filters}"
+                                )
+         # check basic query
+         if curr_search_type == "basic":
+            if curr_tag_filter is not None:
                raise TypeError(
-                               "Each item in `filter_query` must be a dictionary."
+                               "For basic query, tag/filter must be of type None"
                                )
-            single_queries = []
-            for k,v in d.items():
-               if k not in self.advSearch_filter_keys:
-                  invalid_filter_keys.append(k)
-               else:
-                  single_queries.append(
-                                        f"{k}:{v}"
-                                        )
-            if single_queries:
-               filter_query_strings.append(
-                                           " ".join(
-                                                    single_queries
-                                                    )
-                                           )
-         if invalid_filter_keys:
-            raise KeyError(
-                           f"Invalid filter key(s): {invalid_filter_keys}. Valid keys are: {self.advSearch_filter_keys}"
-                           )
+            if not isinstance(
+                              curr_val,
+                              str
+                              ):
+               raise TypeError(
+                               "basic query must be a string of name, SMILES, InChI, or InChI key"
+                               )
+      # check type count
+      if len(
+             set(
+                 search_types
+                 )
+             ) > 1:
+         raise ValueError(
+                          f"Only one type of advanced search allowed, either tag-based, filter-based, or basic."
+                          )
+      if search_types.count("basic") > 1:
+         raise ValueError(
+                          f"Only one basic query allowed at the same time"
+                          )
+      if search_types.count("tags") > 1:
+         raise ValueError(
+                          f"Only one tag-based query allowed at the same time"
+                          )
 
-         # build filter search query
-         self.advSearch_req.update(
-                                   {
-                                    "type" : search_type,
-                                    "query": " OR ".join(
-                                                         filter_query_strings
-                                                         )
-                                    }
-                                   )
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Basic Search
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      elif basic_query is not None:
-         # validate basic search dtype
-         if not isinstance(
-                           basic_query,
-                           str
-                           ):
-            raise TypeError(
-                            "`basic_query` must be a string of name, SMILES, InChI, or InChI key"
-                            )
-
-         # build filter search query
-         self.advSearch_req.update(
-                                   {
-                                    "query": basic_query
-                                    }
-                                   )
+   def build_AdvSearchQuery(
+                            self,
+                            adv_search_query
+                            ):
+      # check input 
+      self._checkAdvSearchQuery(
+                                adv_search_query
+                                )
+      # get search template
+      self.adv_mol_search_req = self.default_adv_mol_search_req
+      # build search request
+      filter_search = None
+      filter_query = []
+      for entry in adv_search_query:
+         curr_search_type = entry[0]
+         curr_tag_filter = entry[1]
+         curr_search_value = entry[2]
+         # build filter-based query
+         if curr_search_type == "filters":
+            filter_search = True
+            self.adv_mol_search_req["type"] = curr_search_type
+            filter_query.append(
+                                f"{curr_tag_filter}:{curr_search_value}"
+                                )
+         # build tag-based query
+         if curr_search_type == "tags":
+            self.adv_mol_search_req["type"] = curr_search_type
+            self.adv_mol_search_req["tagType"] = curr_tag_filter
+            self.adv_mol_search_req["query"] = curr_search_value
+            break
+         # build basic query
+         if curr_search_type == "basic":
+            self.adv_mol_search_req["type"] = curr_search_type
+            self.adv_mol_search_req["query"] = curr_search_value
+            break
+      # build filter-based query
+      if filter_search:
+         if len(filter_query) > 1:
+            self.adv_mol_search_req["query"] = " ".join(
+                                                        filter_query
+                                                        )
+         else:
+            self.adv_mol_search_req["query"] = str(filter_query)
  
 
-   def advSearch(
-                 self
-                 ):
+   def run_advSearchReq(
+                        self
+                        ):
       # input
       # assign page if not specified
-      if not self.advSearch_req.get("page"):
-         self.advSearch_req["page"] = 1
-
+      if not self.adv_mol_search_req.get("page"):
+         self.adv_mol_search_req["page"] = 1
+      print(self.adv_mol_search_req)
       # paginate
       all_data = []
       while True:
          # progress
-         curr_pg = self.advSearch_req["page"]
+         curr_pg = self.adv_mol_search_req["page"]
 
          # request
          adv_search_json = self._post(
                                       endpoint = "search",
-                                      json_body = self.advSearch_req
+                                      json_body = self.adv_mol_search_req
                                       )
 
          # data
@@ -240,20 +205,6 @@ class cocoAdvSearch(
          # check progress
          if curr_recs >= total_recs:
             break
-         curr_pg += 1
+         self.adv_mol_search_req["page"] += 1
 
       return all_data
-
-
-   def clear_advSearch_req(
-                           self
-                           ):
-      self.advSearch_req = {
-                            "type" : "",
-                            "tagType" : "",
-                            "query" : "",
-                            "limit" : "",
-                            "sort" : "",
-                            "page" : "",
-                            "offset" : ""
-                            }
