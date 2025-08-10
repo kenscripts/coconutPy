@@ -45,9 +45,10 @@ coco.get.resourceFields(
 
 
 # Search COCONUT Resources
+### Input
 Input is a list of entries. Each entry is a list of the format [`key`,`field`,`value`].
 
-
+### Keys and Fields
 To find keys for resource:
 ```
 # molecules resource
@@ -62,40 +63,72 @@ coco.get.resourceFields(
                         )
 ```
 
-Perform search:
+### Search Example (Molecules)
+Perform search. Here is a search for molecules:
 ```
-# molecules search
 # save search query as variable for readability
 mol_search_query = [
                     ["filters","name","Ferutidin"],
                     ["selects","standard_inchi_key",None] # selects key doesn't have values
                     ]
+# molecules search
 coco.search.Search(
                    resource_endpoint = "molecules",
                    search_query = mol_search_query
                    )
 ```
 
-
-# Advanced Search For COCONUT Resources
-## Tag-Based Advanced Search 
+### Search Example (Properties)
+Perform search. Here is a search for properties:
 ```
-# organisms example
-coco.search.update_advSearch_req(
-                                 search_type = "tags",
-                                 tag_query = {
-                                              "organisms" : [
-                                                             "Ferula"
-                                                             ]
-                                              }
-            
-                                 )
-
-coco.search.advSearch()
+# save search query as variable for readability
+# a limit of >50 not allowed by COCONUT API
+prop_search_query = [
+                     ["filters","lipinski_rule_of_five_violations","0"],
+                     ["filters","np_classifier_pathway","Terpenoids"],
+                     ["selects","np_classifier_superclass",None],
+                     ["limit",None,50]
+                     ]
+# properties search
+coco.search.Search(
+                   resource_endpoint = "properties",
+                   search_query = prop_search_query
+                   )
 ```
 
 
-## Filter-Based Advanced Search
+# Advanced Search For COCONUT Molecules Resource
+### Input
+Input is a list of entries. Each entry is a list of the following format: [type,tag/filter,value].
+
+### Tag-Based Advanced Search
+First build the advanced search request:
+```
+# tag-based example
+coco.advSearch.build_AdvSearchQuery(
+                                    [
+                                     ["tags","organisms","Ferula"]
+                                     ]
+                                    )
+```
+
+Preview and further modify the advanced search query:
+```
+# preview
+coco.advSearch.adv_mol_search_req
+# returns
+
+# modify page limit
+# preview
+# returns 
+```
+
+Run the advanced search query:
+```
+coco.advSearch.run_AdvSearchReq()
+```
+
+### Filter-Based Advanced Search
 ```
 coco.search.update_advSearch_req(
                                  search_type = "filters",
@@ -109,3 +142,5 @@ coco.search.update_advSearch_req(
 
 coco.search.advSearch()
 ```
+
+### Basic Advanced Search

@@ -101,10 +101,10 @@ class cocoAdvSearch(
                           )
 
 
-   def build_AdvSearchQuery(
-                            self,
-                            adv_search_query
-                            ):
+   def build_AdvSearchReq(
+                          self,
+                          adv_search_query
+                          ):
       # check input 
       self._checkAdvSearchQuery(
                                 adv_search_query
