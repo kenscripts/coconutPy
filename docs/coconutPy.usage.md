@@ -147,7 +147,7 @@ Preview and further modify the advanced search query:
 # preview
 coco.advSearch.adv_mol_search_req
 # returns
-{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
+#{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
 
 # modify page limit
 coco.advSearch.adv_mol_search_req["limit"] = 50 # a limit of >50 not allowed by COCONUT API
@@ -155,7 +155,7 @@ coco.advSearch.adv_mol_search_req["limit"] = 50 # a limit of >50 not allowed by 
 # preview
 coco.advSearch.adv_mol_search_req
 # returns 
-{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': 50, 'sort': '', 'page': '', 'offset': ''}
+#{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': 50, 'sort': '', 'page': '', 'offset': ''}
 ```
 
 Run the advanced search query:
@@ -191,7 +191,7 @@ coco.advSearch.build_AdvSearchReq(
 # preview
 coco.advSearch.adv_mol_search_req
 # returns
-{'type': 'filters', 'tagType': 'organisms', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
+#{'type': 'filters', 'tagType': 'organisms', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
 ```
 
 Run the advanced search query:

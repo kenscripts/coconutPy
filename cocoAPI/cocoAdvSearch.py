@@ -1,5 +1,6 @@
 from cocoAPI.cocoBase import cocoBase
 from cocoAPI import default_search_requests
+import copy
 
 
 class cocoAdvSearch(
@@ -76,7 +77,7 @@ class cocoAdvSearch(
                                "For basic query, tag/filter must be of type None"
                                )
             if not isinstance(
-                              curr_val,
+                              curr_search_value,
                               str
                               ):
                raise TypeError(
@@ -110,7 +111,10 @@ class cocoAdvSearch(
                                 adv_search_query
                                 )
       # get search template
-      self.adv_mol_search_req = self.default_adv_mol_search_req
+      # copy to avoid modifying default search req
+      self.adv_mol_search_req = copy.deepcopy(
+                                              self.default_adv_mol_search_req
+                                              )
       # build search request
       filter_search = None
       filter_query = []
@@ -138,13 +142,10 @@ class cocoAdvSearch(
             break
       # build filter-based query
       if filter_search:
-         if len(filter_query) > 1:
-            self.adv_mol_search_req["query"] = " ".join(
-                                                        filter_query
-                                                        )
-         else:
-            self.adv_mol_search_req["query"] = str(filter_query)
- 
+         self.adv_mol_search_req["query"] = " ".join(
+                                                     filter_query
+                                                     )
+
 
    def run_AdvSearchReq(
                         self
@@ -153,7 +154,6 @@ class cocoAdvSearch(
       # assign page if not specified
       if not self.adv_mol_search_req.get("page"):
          self.adv_mol_search_req["page"] = 1
-      print(self.adv_mol_search_req)
       # paginate
       all_data = []
       while True:
