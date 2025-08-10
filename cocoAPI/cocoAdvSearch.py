@@ -13,6 +13,11 @@ class cocoAdvSearch(
       super().__init__(cocoLog)
       # default search request body
       self.adv_mol_search_info = default_search_requests.adv_mol_search_info
+      self.adv_mol_search_types = [
+                                   "tags",
+                                   "filters",
+                                   "basic"
+                                   ]
       self.default_adv_mol_search_req = self.adv_mol_search_info["search"]
 
 
@@ -34,13 +39,8 @@ class cocoAdvSearch(
          raise TypeError(
                          "`adv_search_query` must be a list of [type, tag/filter, value]"
                          )
-
       # data
-      valid_types = [
-                     "tags",
-                     "filters",
-                     "basic"
-                     ]
+      valid_types = self.adv_mol_search_types
       valid_tags = self.adv_mol_search_info["tags"]
       valid_filters = self.adv_mol_search_info["filters"]
       search_types = []

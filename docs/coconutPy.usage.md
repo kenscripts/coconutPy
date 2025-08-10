@@ -82,12 +82,11 @@ coco.search.Search(
 Here is a search example for properties:
 ```
 # save search query as variable for readability
-# a limit of >50 not allowed by COCONUT API
 prop_search_query = [
                      ["filters","lipinski_rule_of_five_violations","0"],
                      ["filters","np_classifier_pathway","Terpenoids"],
                      ["selects","np_classifier_superclass",None],
-                     ["limit",None,50]
+                     ["limit",None,50] # a limit of >50 not allowed by COCONUT API
                      ]
 # properties search
 coco.search.Search(
@@ -110,22 +109,37 @@ for coll in coco.search.allRecords(
                                    ):
    # find collections that mention plants
    if "plant" in coll["description"]:
-      print(coll["title"])
+      print(
+            coll["title"]
+            )
 ```
 
 # Advanced Search For COCONUT Molecules Resource
 ### Input
 Input is a list of entries. Each entry is a list of the following format: [type,tag/filter,value].
 
+### Types, Tags, Filters
+To find accepted types:
+```
+coco.advSearch.adv_mol_search_types
+```
+To find accepted tags:
+```
+coco.advSearch.adv_mol_search_info["tags"]
+```
+To find accepted filters:
+```
+coco.advSearch.adv_mol_search_info["filters"]
+```
+
 ### Tag-Based Advanced Search
 First build the advanced search request:
 ```
-# tag-based example
-coco.advSearch.build_AdvSearchQuery(
-                                    [
-                                     ["tags","organisms","Ferula"]
-                                     ]
-                                    )
+coco.advSearch.build_AdvSearchReq(
+                                  [
+                                   ["tags","organisms","Ferula"]
+                                   ]
+                                  )
 ```
 
 Preview and further modify the advanced search query:
@@ -133,10 +147,14 @@ Preview and further modify the advanced search query:
 # preview
 coco.advSearch.adv_mol_search_req
 # returns
+{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
 
 # modify page limit
+coco.advSearch.adv_mol_search_req["page"] = 50
 # preview
+coco.advSearch.adv_mol_search_req
 # returns 
+{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': 50, 'offset': ''}
 ```
 
 Run the advanced search query:
@@ -160,3 +178,16 @@ coco.search.advSearch()
 ```
 
 ### Basic Advanced Search
+First build the advanced search request:
+```
+coco.advSearch.build_AdvSearchReq(
+                                  [
+                                   ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
+                                   ]
+                                  )
+```
+
+Run the advanced search query:
+```
+coco.advSearch.run_AdvSearchReq()
+```
