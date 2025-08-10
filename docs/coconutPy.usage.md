@@ -116,7 +116,7 @@ for coll in coco.search.allRecords(
 
 # Advanced Search For COCONUT Molecules Resource
 ### Input
-Input is a list of entries. Each entry is a list of the following format: [type,tag/filter,value].
+Input is a list of entries. Each entry is a list of the following format: [`type`, `tag|filter`,`value`].
 
 ### Types, Tags, Filters
 To find accepted types:
@@ -150,11 +150,12 @@ coco.advSearch.adv_mol_search_req
 {'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
 
 # modify page limit
-coco.advSearch.adv_mol_search_req["page"] = 50
+coco.advSearch.adv_mol_search_req["limit"] = 50 # a limit of >50 not allowed by COCONUT API
+
 # preview
 coco.advSearch.adv_mol_search_req
 # returns 
-{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': 50, 'offset': ''}
+{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': 50, 'sort': '', 'page': '', 'offset': ''}
 ```
 
 Run the advanced search query:
@@ -162,19 +163,30 @@ Run the advanced search query:
 coco.advSearch.run_AdvSearchReq()
 ```
 
-### Filter-Based Advanced Search
+### Filter-Based Advanced Search (Single Filter)
+First build the advanced search request:
 ```
-coco.search.update_advSearch_req(
-                                 search_type = "filters",
-                                 filter_query = [
-                                                 {
-                                                  "mw" : "500..1000",
-                                                  "np_pathway" : "Alkaloids"
-                                                  }
-                                                 ]
-                                 )
+coco.advSearch.build_AdvSearchReq(
+                                  [
+                                   ["filters","np_pathway","Alkaloids"]
+                                   ]
+                                  )
+```
 
-coco.search.advSearch()
+Run the advanced search query:
+```
+coco.advSearch.run_AdvSearchReq()
+```
+
+### Filter-Based Advanced Search (Multiple Filters)
+First build the advanced search request:
+```
+coco.advSearch.build_AdvSearchReq(
+                                  [
+                                   ["filters","np_pathway","Alkaloids"],
+                                   ["filters","mw","500..1000"]
+                                   ]
+                                  )
 ```
 
 ### Basic Advanced Search
