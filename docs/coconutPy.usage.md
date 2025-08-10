@@ -187,6 +187,16 @@ coco.advSearch.build_AdvSearchReq(
                                    ["filters","mw","500..1000"]
                                    ]
                                   )
+
+# preview
+coco.advSearch.adv_mol_search_req
+# returns
+{'type': 'filters', 'tagType': 'organisms', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
+```
+
+Run the advanced search query:
+```
+coco.advSearch.run_AdvSearchReq()
 ```
 
 ### Basic Advanced Search
