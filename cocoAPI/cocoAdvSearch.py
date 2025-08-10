@@ -137,7 +137,6 @@ class cocoAdvSearch(
             break
          # build basic query
          if curr_search_type == "basic":
-            self.adv_mol_search_req["type"] = curr_search_type
             self.adv_mol_search_req["query"] = curr_search_value
             break
       # build filter-based query

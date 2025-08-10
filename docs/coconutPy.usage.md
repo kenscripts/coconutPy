@@ -71,6 +71,7 @@ mol_search_query = [
                     ["filters","name","Ferutidin"],
                     ["selects","standard_inchi_key",None] # selects key doesn't have values
                     ]
+
 # molecules search
 coco.search.Search(
                    resource_endpoint = "molecules",
@@ -88,6 +89,7 @@ prop_search_query = [
                      ["selects","np_classifier_superclass",None],
                      ["limit",None,50] # a limit of >50 not allowed by COCONUT API
                      ]
+
 # properties search
 coco.search.Search(
                    resource_endpoint = "properties",
@@ -191,7 +193,7 @@ coco.advSearch.build_AdvSearchReq(
 # preview
 coco.advSearch.adv_mol_search_req
 # returns
-#{'type': 'filters', 'tagType': 'organisms', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
+#{'type': 'filters', 'tagType': '', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
 ```
 
 Run the advanced search query:
@@ -200,7 +202,9 @@ coco.advSearch.run_AdvSearchReq()
 ```
 
 ### Basic Advanced Search
-First build the advanced search request:
+Basic search query must be a string of name, SMILES, InChI, or InChI key.
+
+Build the advanced search request:
 ```
 coco.advSearch.build_AdvSearchReq(
                                   [
