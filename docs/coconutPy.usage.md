@@ -201,6 +201,28 @@ Run the advanced search query:
 coco.advSearch.run_AdvSearchReq()
 ```
 
+### Filter-Based Advanced Search (Complex Filters)
+Build the advanced search request with OR logical operator:
+```
+coco.advSearch.build_AdvSearchReq(
+                                  [
+                                   ["filters","np_pathway","Alkaloids"],
+                                   ["filters","cs","true OR"],
+                                   ["filters","mw","500..1000"]
+                                   ]
+                                  )
+
+# preview
+coco.advSearch.adv_mol_search_req
+# returns
+#{'type': 'filters', 'tagType': '', 'query': 'np_pathway:Alkaloids cs:true OR mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
+```
+
+Run the advanced search query:
+```
+coco.advSearch.run_AdvSearchReq()
+```
+
 ### Basic Advanced Search
 Basic search query must be a string of name, SMILES, InChI, or InChI key.
 
