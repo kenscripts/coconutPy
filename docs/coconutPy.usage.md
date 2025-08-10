@@ -64,7 +64,7 @@ coco.get.resourceFields(
 ```
 
 ### Search Example (Molecules)
-Perform search. Here is a search for molecules:
+Here is a search example for molecules:
 ```
 # save search query as variable for readability
 mol_search_query = [
@@ -79,7 +79,7 @@ coco.search.Search(
 ```
 
 ### Search Example (Properties)
-Perform search. Here is a search for properties:
+Here is a search example for properties:
 ```
 # save search query as variable for readability
 # a limit of >50 not allowed by COCONUT API
@@ -96,6 +96,22 @@ coco.search.Search(
                    )
 ```
 
+### Search Example (Collections)
+Here is a search example for collections to identify plant collections:
+```
+# get fields for collections resource
+coco.get.resourceFields(
+                        resource_endpoint = "collections"
+                        )
+
+# get all records for collections resource
+for coll in coco.search.allRecords(
+                                   resource_endpoint = "collections"
+                                   ):
+   # find collections that mention plants
+   if "plant" in coll["description"]:
+      print(coll["title"])
+```
 
 # Advanced Search For COCONUT Molecules Resource
 ### Input

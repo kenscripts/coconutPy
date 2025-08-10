@@ -146,7 +146,7 @@ class cocoAdvSearch(
             self.adv_mol_search_req["query"] = str(filter_query)
  
 
-   def run_advSearchReq(
+   def run_AdvSearchReq(
                         self
                         ):
       # input
