@@ -56,9 +56,13 @@ class cocoBase:
                          )
       # pagination input
       # create copy to modify page
-      # create page if not present
+      # create page if not present; page is below search
       json_copy = json_body.copy()
       json_copy.setdefault(
+                           "search",
+                           {}
+                           ) \
+               .setdefault(
                            "page",
                            1
                            )

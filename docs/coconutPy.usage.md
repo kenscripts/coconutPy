@@ -79,6 +79,26 @@ coco.search.Search(
                    )
 ```
 
+Properties can be included with molecule search:
+```
+# value to include properties
+include_properties = [
+                      {'relation':'properties'}
+                      ]
+
+# search query
+mol_search_query = [
+                    ["filters","name","Ferutidin"],
+                    ["includes",None,include_properties]
+                    ]
+
+# molecules search with properties included
+coco.search.Search(
+                   resource_endpoint = "molecules",
+                   search_query = mol_search_query
+                   )
+```
+
 ### Search Example (Properties)
 Here is a search example for properties:
 ```
