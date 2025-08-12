@@ -46,9 +46,9 @@ coco.get.resourceFields(
 
 # Search COCONUT Resources
 ### Input
-Input is a list of entries. Each entry is a list of the format [`key`,`field`,`value`].
+`search_query` is a list of entries. Each entry is a list of the format [`key`,`field`,`value`].
 
-### Keys and Fields
+### Find Keys & Fields
 To find keys for resource:
 ```
 # molecules resource
@@ -118,9 +118,9 @@ for coll in coco.search.allRecords(
 
 # Advanced Search For COCONUT Molecules Resource
 ### Input
-Input is a list of entries. Each entry is a list of the following format: [`type`, `tag|filter`,`value`].
+`adv_search_query` is a list of entries. Each entry is a list of the following format: [`type`, `tag|filter`,`value`].
 
-### Types, Tags, Filters
+### Find Types, Tags, & Filters
 To find accepted types:
 ```
 coco.advSearch.adv_mol_search_types
@@ -138,9 +138,9 @@ coco.advSearch.adv_mol_search_info["filters"]
 First build the advanced search request:
 ```
 coco.advSearch.build_AdvSearchReq(
-                                  [
-                                   ["tags","organisms","Ferula"]
-                                   ]
+                                  adv_search_query = [
+                                                      ["tags","organisms","Ferula"]
+                                                      ]
                                   )
 ```
 
@@ -169,9 +169,9 @@ coco.advSearch.run_AdvSearchReq()
 First build the advanced search request:
 ```
 coco.advSearch.build_AdvSearchReq(
-                                  [
-                                   ["filters","np_pathway","Alkaloids"]
-                                   ]
+                                  adv_search_query = [
+                                                      ["filters","np_pathway","Alkaloids"]
+                                                      ]
                                   )
 ```
 
@@ -184,10 +184,10 @@ coco.advSearch.run_AdvSearchReq()
 First build the advanced search request:
 ```
 coco.advSearch.build_AdvSearchReq(
-                                  [
-                                   ["filters","np_pathway","Alkaloids"],
-                                   ["filters","mw","500..1000"]
-                                   ]
+                                  adv_search_query = [
+                                                      ["filters","np_pathway","Alkaloids"],
+                                                      ["filters","mw","500..1000"]
+                                                      ]
                                   )
 
 # preview
@@ -205,11 +205,11 @@ coco.advSearch.run_AdvSearchReq()
 Build the advanced search request with OR logical operator:
 ```
 coco.advSearch.build_AdvSearchReq(
-                                  [
-                                   ["filters","np_pathway","Alkaloids"],
-                                   ["filters","cs","true OR"],
-                                   ["filters","mw","500..1000"]
-                                   ]
+                                  adv_search_query = [
+                                                      ["filters","np_pathway","Alkaloids"],
+                                                      ["filters","cs","true OR"],
+                                                      ["filters","mw","500..1000"]
+                                                      ]
                                   )
 
 # preview
@@ -224,14 +224,14 @@ coco.advSearch.run_AdvSearchReq()
 ```
 
 ### Basic Advanced Search
-Basic search query must be a string of name, SMILES, InChI, or InChI key.
+Value for basic advanced search must be a string of name, SMILES, InChI, or InChI key.
 
 Build the advanced search request:
 ```
 coco.advSearch.build_AdvSearchReq(
-                                  [
-                                   ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
-                                   ]
+                                  adv_search_query = [
+                                                      ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
+                                                      ]
                                   )
 ```
 
