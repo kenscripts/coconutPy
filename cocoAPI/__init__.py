@@ -1,7 +1,5 @@
 """
-coconutPy package
-
-A Python wrapper for the COCONUT natural product database REST API.
+coconutPy: A Python wrapper for the COCONUT natural product database REST API.
 
 Classes:
 - cocoPy: Main class for interacting with the COCONUT API.
