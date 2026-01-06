@@ -20,7 +20,20 @@ class cocoLog:
        """
        Log in to the COCONUT API and return the response JSON.
        On success, stores the token and sets the Authorization header.
+
+       Parameters
+       ----------
+       email
+         Email address for COCONUT account
+       password
+         Password for COCONUT account
+
+       Returns
+       -------
+       dict
+         JSON response from the COCONUT API.
        """
+       # build login request
        login_post = f"{self.api_url}/auth/login"
        login_json = {
                      "email" : email,

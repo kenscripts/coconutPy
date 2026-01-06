@@ -18,6 +18,19 @@ class cocoGet(
                     self,
                     resource_endpoint
                     ):
+      """
+      Retrieves JSON response from the COCONUT API.
+
+      Parameters
+      ----------
+      resource_endpoint
+         COCONUT API endpoint
+
+      Returns
+      -------
+      dict
+         JSON response from the COCONUT API.
+      """
       return self._get(
                        endpoint = resource_endpoint
                        )

@@ -5,6 +5,16 @@ from cocoAPI.cocoAdvSearch import cocoAdvSearch
 
 
 class cocoPy:
+   """
+   Class for COCONUT API.
+
+   Parameters
+   ----------
+   email
+      Email address for COCONUT account
+   password
+      Password for COCONUT account
+   """
    def __init__(
                 self,
                 email,

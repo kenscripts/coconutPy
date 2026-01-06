@@ -6,6 +6,9 @@ import copy
 class cocoAdvSearch(
                     cocoBase
                     ):
+   """
+   Class for performing advanced searches against COCONUT database.
+   """
    def __init__(
                 self,
                 cocoLog
@@ -26,6 +29,19 @@ class cocoAdvSearch(
                             self,
                             adv_search_query
                             ):
+      """
+      Performs several checks on adv_search_query to ensure correct format.
+
+      Parameters
+      ----------
+      adv_search_query
+         List of entries, where each entry has format [`type`, `tag|filter`, `value`]
+
+      Returns
+      -------
+      error
+         Raises errors if found
+      """
       # check input structure
       if not isinstance(
                         adv_search_query,
@@ -38,7 +54,7 @@ class cocoAdvSearch(
                                      for entry in adv_search_query
                                      ):
          raise TypeError(
-                         "`adv_search_query` must be a list of [type, tag/filter, value]"
+                         "`adv_search_query` must be a list of [`type`, `tag|filter`, `value`]"
                          )
       # data
       valid_types = self.adv_mol_search_types
@@ -106,6 +122,19 @@ class cocoAdvSearch(
                           self,
                           adv_search_query
                           ):
+      """
+      Builds advanced search request from a list of entries, where each entry has format [`type`, `tag|filter`, `value`].
+
+      Parameters
+      ----------
+      adv_search_query
+         List of entries, where each entry has format [`type`, `tag|filter`, `value`]
+
+      Returns
+      -------
+      dict
+         Advanced search request.
+      """
       # check input 
       self._checkAdvSearchQuery(
                                 adv_search_query
@@ -149,6 +178,14 @@ class cocoAdvSearch(
    def run_AdvSearchReq(
                         self
                         ):
+      """
+      Runs advanced search request and returns the json response.
+
+      Returns
+      -------
+      dict
+         Complete results from advanced search request.
+      """
       # input
       # assign page if not specified
       if not self.adv_mol_search_req.get("page"):
