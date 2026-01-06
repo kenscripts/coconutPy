@@ -14,6 +14,7 @@ pip install git+https://github.com/kenscripts/coconutPy.git`
 # import
 from cocoAPI import cocoPy
 
+# save login credenitals as env variables
 # get email and password from env 
 EMAIL = os.getenv(
                   "COCONUT_EMAIL"
