@@ -15,6 +15,7 @@ class cocoAdvSearch(
                 ):
       # inherits session, api_url
       super().__init__(cocoLog)
+
       # default search request body
       self.adv_mol_search_info = default_search_requests.adv_mol_search_info
       self.adv_mol_search_types = [
@@ -56,11 +57,13 @@ class cocoAdvSearch(
          raise TypeError(
                          "`adv_search_query` must be a list of [`type`, `tag|filter`, `value`]"
                          )
+
       # data
       valid_types = self.adv_mol_search_types
       valid_tags = self.adv_mol_search_info["tags"]
       valid_filters = self.adv_mol_search_info["filters"]
       search_types = []
+
       # go through entries
       for entry in adv_search_query:
          curr_search_type = entry[0]
@@ -69,23 +72,27 @@ class cocoAdvSearch(
          search_types.append(
                              curr_search_type
                              )
+
          # check type
          if curr_search_type not in valid_types:
             raise ValueError(
                              f"Invalid type: {curr_search_type}. Valid types are: {valid_types}"
                              )
+
          # check tag
          if curr_search_type == "tags":
             if curr_tag_filter not in valid_tags:
                raise ValueError(
                                 f"Invalid tag: {curr_tag_filter}. Valid tags are: {valid_tags}"
                                 )
+
          # check filters
          if curr_search_type == "filters":
             if curr_tag_filter not in valid_filters:
                raise ValueError(
                                 f"Invalid filter: {curr_tag_filter}. Valid filters are: {valid_filters}"
                                 )
+
          # check basic query
          if curr_search_type == "basic":
             if curr_tag_filter is not None:
@@ -99,6 +106,7 @@ class cocoAdvSearch(
                raise TypeError(
                                "basic query must be a string of name, SMILES, InChI, or InChI key"
                                )
+
       # check type count
       if len(
              set(
@@ -139,11 +147,13 @@ class cocoAdvSearch(
       self._checkAdvSearchQuery(
                                 adv_search_query
                                 )
+
       # get search template
       # copy to avoid modifying default search req
       self.adv_mol_search_req = copy.deepcopy(
                                               self.default_adv_mol_search_req
                                               )
+
       # build search request
       filter_search = None
       filter_query = []
@@ -151,6 +161,7 @@ class cocoAdvSearch(
          curr_search_type = entry[0]
          curr_tag_filter = entry[1]
          curr_search_value = entry[2]
+
          # build filter-based query
          if curr_search_type == "filters":
             filter_search = True
@@ -158,16 +169,19 @@ class cocoAdvSearch(
             filter_query.append(
                                 f"{curr_tag_filter}:{curr_search_value}"
                                 )
+
          # build tag-based query
          if curr_search_type == "tags":
             self.adv_mol_search_req["type"] = curr_search_type
             self.adv_mol_search_req["tagType"] = curr_tag_filter
             self.adv_mol_search_req["query"] = curr_search_value
             break
+
          # build basic query
          if curr_search_type == "basic":
             self.adv_mol_search_req["query"] = curr_search_value
             break
+
       # build filter-based query
       if filter_search:
          self.adv_mol_search_req["query"] = " ".join(
@@ -190,6 +204,7 @@ class cocoAdvSearch(
       # assign page if not specified
       if not self.adv_mol_search_req.get("page"):
          self.adv_mol_search_req["page"] = 1
+
       # paginate
       all_data = []
       while True:

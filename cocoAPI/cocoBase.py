@@ -46,6 +46,7 @@ class cocoBase:
                              url = url,
                              params = params
                              )
+
       # check response
       res.raise_for_status()
 
@@ -83,6 +84,7 @@ class cocoBase:
                               url = url,
                               json = json_body
                               )
+
       # check response
       res.raise_for_status()
 

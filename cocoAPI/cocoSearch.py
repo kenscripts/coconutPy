@@ -49,11 +49,13 @@ class cocoSearch(
                              resource_endpoint = resource_endpoint,
                              search_query = search_query
                              )
+
       # build search request
       self.search_req = self._buildSearchReq(
                                              resource_endpoint = resource_endpoint,
                                              search_query = search_query
                                              )
+
       # execute search request
       return self._paginateData(
                                 endpoint = f"{resource_endpoint}/search",
@@ -94,6 +96,7 @@ class cocoSearch(
          raise TypeError(
                          "`search_query` must be a list of [key, field, value]"
                          )
+
       # use default search request to get keys & fields
       attr_name = f"default_{resource_endpoint}_search_req"
       resource_search_req = getattr(
@@ -101,6 +104,7 @@ class cocoSearch(
                                     attr_name, 
                                     None
                                     )
+
       # check keys
       resource_keys = resource_search_req["search"].keys()
       if not all(
@@ -110,6 +114,7 @@ class cocoSearch(
          raise ValueError(
                           f"keys must be a one of: {resource_keys}"
                           )
+
       # check fields; list needed to append None
       resource_fields = list(
                              self._get(
@@ -126,6 +131,7 @@ class cocoSearch(
          raise ValueError(
                           f"fields must be a one of: {resource_fields}"
                           )
+
       # check values
       for entry in search_query:
          if entry[0] == "select":
@@ -240,9 +246,12 @@ class cocoSearch(
                                        "limit": pg_limit
                                        }
                             }
+
       # request data
       all_collection_data = self._paginateData(
                                                endpoint = f"{resource_endpoint}/search",
                                                json_body = all_collection_req
                                                )
+
+      # return data
       return all_collection_data
