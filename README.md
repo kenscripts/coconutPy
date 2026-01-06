@@ -31,10 +31,12 @@ coco = cocoPy(
               )
 
 # molecule search
+mol_search_query = [
+                    ["filters", "name", "caffeine"]
+                    ]
 res = coco.search.Search(
-                         [
-                          ["filters", "name", "caffeine"]
-                          ]
+                         resource_endpoint = "molecules",
+                         search_query = mol_search_query
                          )
 print(res)
 ```
