@@ -12,6 +12,7 @@ pip install git+https://github.com/kenscripts/coconutPy.git`
 # Quick Start
 ```
 # import
+import os
 from cocoAPI import cocoPy
 
 # save login credenitals as env variables
