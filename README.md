@@ -31,11 +31,11 @@ coco = cocoPy(
               )
 
 # molecule search
-res = coco.search(
-                  [
-                   ["filters", "name", "caffeine"]
-                   ]
-                  )
+res = coco.search.Search(
+                         [
+                          ["filters", "name", "caffeine"]
+                          ]
+                         )
 print(res)
 ```
 
