@@ -19,8 +19,7 @@ class cocoBase:
    def _get(
             self,
             endpoint,
-            params = None,
-            headers = {"Accept": "application/json"}
+            params = None
             ):
       """
       Performs GET request to the COCONUT API.
@@ -45,8 +44,7 @@ class cocoBase:
       # request
       res = self.session.get(
                              url = url,
-                             params = params,
-                             headers = headers
+                             params = params
                              )
 
       # check response
@@ -59,8 +57,7 @@ class cocoBase:
    def _post(
              self,
              endpoint,
-             json_body,
-             headers = {"Accept": "application/json"}
+             json_body
              ):
       """
       Performs POST request to the COCONUT API.
@@ -85,8 +82,7 @@ class cocoBase:
       # request
       res = self.session.post(
                               url = url,
-                              json = json_body,
-                              headers = headers
+                              json = json_body
                               )
 
       # check response
@@ -99,8 +95,7 @@ class cocoBase:
    def _paginateData(
                      self,
                      endpoint,
-                     json_body,
-                     headers = {"Accept": "application/json"}
+                     json_body
                      ):
       """
       Performs pagination on the data returned from the COCONUT API.
@@ -150,8 +145,7 @@ class cocoBase:
          # request
          response = self._post(
                                endpoint = endpoint,
-                               json_body = json_copy,
-                               headers = headers
+                               json_body = json_copy
                                )
 
          # data
