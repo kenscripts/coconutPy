@@ -8,7 +8,3 @@ Classes:
 - cocoAdvSearch: Class for performing advanced searches against COCONUT database.
 - cocoLog: Class for logging in to the COCONUT API.
 """
-
-from .cocoPy import cocoPy
-
-__all__ = ["cocoPy"]
