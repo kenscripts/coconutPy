@@ -259,3 +259,33 @@ class cocoAdvSearch(
          self.adv_mol_search_req["page"] += 1
 
       return all_data
+
+
+   def allAdvRecords(
+                     self,
+                     pg_limit = 25
+                     ):
+      """
+      Get all records from COCONUT advanced search request.
+
+      Parameters
+      ----------
+      pg_limit
+         Number of results per page
+
+      Returns
+      -------
+      dict
+         Complete results from advanced search request.
+      """
+      # get default search template to retrieve all records
+      # empty fields retrieve all records
+      self.adv_mol_search_req = copy.deepcopy(
+                                              self.default_adv_mol_search_req
+                                              )
+
+      # set page limit
+      self.adv_mol_search_req["limit"] = pg_limit
+
+      # retrieve all records
+      return self.run_AdvSearchReq()
