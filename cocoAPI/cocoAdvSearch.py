@@ -1,6 +1,7 @@
 from cocoAPI.cocoBase import cocoBase
 from cocoAPI import default_search_requests
 import copy
+import time
 
 
 class cocoAdvSearch(
@@ -190,10 +191,16 @@ class cocoAdvSearch(
 
 
    def run_AdvSearchReq(
-                        self
+                        self,
+                        sleep_time = 0.5
                         ):
       """
       Runs advanced search request and returns the json response.
+
+      Parameters
+      ----------
+      sleep_time
+         Time to sleep to avoid rate limiting
 
       Returns
       -------
@@ -258,12 +265,16 @@ class cocoAdvSearch(
             break
          self.adv_mol_search_req["page"] += 1
 
+         # sleep to avoid rate limiting
+         time.sleep(sleep_time)
+
       return all_data
 
 
    def allAdvRecords(
                      self,
-                     pg_limit = 25
+                     pg_limit = 25,
+                     sleep_time = 0.5
                      ):
       """
       Get all records from COCONUT advanced search request.
@@ -272,6 +283,8 @@ class cocoAdvSearch(
       ----------
       pg_limit
          Number of results per page
+      sleep_time
+         Time to sleep to avoid rate limiting
 
       Returns
       -------
@@ -288,4 +301,4 @@ class cocoAdvSearch(
       self.adv_mol_search_req["limit"] = pg_limit
 
       # retrieve all records
-      return self.run_AdvSearchReq()
+      return self.run_AdvSearchReq(sleep_time = sleep_time)
