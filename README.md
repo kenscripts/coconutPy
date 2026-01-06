@@ -6,7 +6,7 @@ A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural
 # Install
 ```
 # from github
-pip install git+https://github.com/kenscripts/coconutPy.git`
+pip install git+https://github.com/kenscripts/coconutPy.git
 ```
 
 # Quick Start
@@ -17,6 +17,7 @@ from cocoAPI import cocoPy
 
 # save login credenitals as env variables
 # get email and password from env 
+# account email may need to be verified periodically through website
 EMAIL = os.getenv(
                   "COCONUT_EMAIL"
                   )
