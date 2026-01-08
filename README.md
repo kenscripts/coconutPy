@@ -210,10 +210,10 @@ coco.advSearch.advanced_query(
 First build the advanced search request:
 ```
 # advanced searcy query
-adv_search_query = [
-                    ["filters","np_pathway","Alkaloids"],
-                    ["filters","mw","500..1000"]
-                    ]
+adv_mol_search_query = [
+                        ["filters","np_pathway","Alkaloids"],
+                        ["filters","mw","500..1000"]
+                        ]
 
 # advanced search
 # API may fail with page limits > 50
@@ -228,11 +228,11 @@ coco.advSearch.advanced_query(
 ### Filter-Based Advanced Search (Complex Filters)
 ```
 # build the advanced search request with OR logical operator:
-adv_search_query = [
-                    ["filters","np_pathway","Alkaloids"],
-                    ["filters","cs","true OR"],
-                    ["filters","mw","500..1000"]
-                    ]
+adv_mol_search_query = [
+                        ["filters","np_pathway","Alkaloids"],
+                        ["filters","cs","true OR"],
+                        ["filters","mw","500..1000"]
+                        ]
 
 # advanced search
 # API may fail with page limits > 50
@@ -247,9 +247,9 @@ coco.advSearch.advanced_query(
 ### Basic Advanced Search
 ```
 # value for basic advanced search must be a string of name, SMILES, InChI, or InChI key.
-adv_search_query = [
-                    ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
-                    ]
+adv_mol_search_query = [
+                        ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
+                        ]
 
 # advanced search
 # API may fail with page limits > 50
