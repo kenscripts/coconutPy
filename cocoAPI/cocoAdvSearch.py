@@ -8,7 +8,7 @@ class cocoAdvSearch(
                     cocoBase
                     ):
    """
-   Class for performing advanced searches against COCONUT database.
+   Class for performing advanced searches against COCONUT API molecules endpoint.
    """
    def __init__(
                 self,
@@ -27,12 +27,50 @@ class cocoAdvSearch(
       self.default_adv_mol_search_req = self.adv_mol_search_info["search"]
 
 
-   def _checkAdvSearchQuery(
-                            self,
-                            adv_search_query
-                            ):
+   def advanced_query(
+                      self,
+                      adv_search_query,
+                      sleep_time = 0
+                      ):
       """
-      Performs several checks on adv_search_query to ensure correct format.
+      Runs advanced search request from `adv_search_query` and returns the json response.
+
+      Parameters
+      ----------
+      adv_search_query
+         List of entries, where each entry has format [`type`, `tag|filter`, `value`]
+      sleep_time
+         Time to sleep between requests to avoid rate limiting
+
+      Returns
+      -------
+      dict
+         Complete results from the COCONUT API advanced search request.
+      error
+         Raises errors if found
+      """
+      # check advanced search query
+      self._check_adv_search_query(
+                                   adv_search_query = adv_search_query
+                                   )
+
+      # build advanced search request
+      self.adv_mol_search_req = self._build_adv_search_req(
+                                                           adv_search_query
+                                                           )
+
+      # execute advanced search request
+      return self._paginate_adv_search_data(
+                                            json_body = self.adv_mol_search_req,
+                                            sleep_time = sleep_time
+                                            )
+
+   def _check_adv_search_query(
+                               self,
+                               adv_search_query
+                               ):
+      """
+      Performs several checks on `adv_search_query` to ensure correct format.
 
       Parameters
       ----------
@@ -127,12 +165,12 @@ class cocoAdvSearch(
                           )
 
 
-   def build_AdvSearchReq(
-                          self,
-                          adv_search_query
-                          ):
+   def _build_adv_search_req(
+                             self,
+                             adv_search_query
+                             ):
       """
-      Builds advanced search request from a list of entries, where each entry has format [`type`, `tag|filter`, `value`].
+      Builds advanced search request from a `adv_search_query` list of entries, where each entry has format [`type`, `tag|filter`, `value`].
 
       Parameters
       ----------
@@ -142,12 +180,14 @@ class cocoAdvSearch(
       Returns
       -------
       dict
-         Advanced search request.
+         Advanced search request from `adv_search_query`.
+      error
+         Raises errors if found
       """
-      # check input 
-      self._checkAdvSearchQuery(
-                                adv_search_query
-                                )
+      # check advanced search query
+      self._check_adv_search_query(
+                                   adv_search_query
+                                   )
 
       # get search template
       # copy to avoid modifying default search req
@@ -155,7 +195,7 @@ class cocoAdvSearch(
                                               self.default_adv_mol_search_req
                                               )
 
-      # build search request
+      # build advanced search request
       filter_search = None
       filter_query = []
       for entry in adv_search_query:
@@ -163,7 +203,7 @@ class cocoAdvSearch(
          curr_tag_filter = entry[1]
          curr_search_value = entry[2]
 
-         # build filter-based query
+         # build filter-based advanced search request
          if curr_search_type == "filters":
             filter_search = True
             self.adv_mol_search_req["type"] = curr_search_type
@@ -171,57 +211,75 @@ class cocoAdvSearch(
                                 f"{curr_tag_filter}:{curr_search_value}"
                                 )
 
-         # build tag-based query
+         # build tag-based advanced search request
          if curr_search_type == "tags":
             self.adv_mol_search_req["type"] = curr_search_type
             self.adv_mol_search_req["tagType"] = curr_tag_filter
             self.adv_mol_search_req["query"] = curr_search_value
             break
 
-         # build basic query
+         # build basic advanced search request
          if curr_search_type == "basic":
             self.adv_mol_search_req["query"] = curr_search_value
             break
 
-      # build filter-based query
+      # build filter-based advanced search request
       if filter_search:
          self.adv_mol_search_req["query"] = " ".join(
                                                      filter_query
                                                      )
 
 
-   def run_AdvSearchReq(
-                        self,
-                        sleep_time = 0.5
-                        ):
+   def _paginate_adv_search_data(
+                                 self,
+                                 json_body,
+                                 sleep_time
+                                 ):
       """
-      Runs advanced search request and returns the json response.
+      Performs pagination on the data returned from the COCONUT API advanced search request.
 
       Parameters
       ----------
+      json_body
+         JSON body for the advanced search request
       sleep_time
          Time to sleep to avoid rate limiting
 
       Returns
       -------
       dict
-         Complete results from advanced search request.
+         Complete results from the COCONUT API advanced search request.
+      error
+         Raises errors if found
       """
-      # input
-      # assign page if not specified
-      if not self.adv_mol_search_req.get("page"):
-         self.adv_mol_search_req["page"] = 1
+      # checks
+      if not isinstance(
+                        json_body,
+                        dict
+                        ):
+         raise TypeError(
+                         "`json_body` must be a dictionary."
+                         )
+
+      # pagination input
+      # create copy to modify page
+      # create page if not present; page is below search
+      adv_mol_search_req_copy = json_body.copy()
+      adv_mol_search_req_copy.setdefault(
+                                         "page",
+                                         1
+                                         )
 
       # paginate
       all_data = []
       while True:
          # progress
-         curr_pg = self.adv_mol_search_req["page"]
+         curr_pg = adv_mol_search_req_copy["page"]
 
          # request
          adv_search_json = self._post(
                                       endpoint = "search",
-                                      json_body = self.adv_mol_search_req
+                                      json_body = adv_mol_search_req_copy
                                       )
 
          # data
@@ -263,21 +321,22 @@ class cocoAdvSearch(
          # check progress
          if curr_recs >= total_recs:
             break
-         self.adv_mol_search_req["page"] += 1
+         adv_mol_search_req_copy["page"] += 1
 
          # sleep to avoid rate limiting
          time.sleep(sleep_time)
 
+      # return data
       return all_data
 
 
-   def allAdvRecords(
-                     self,
-                     pg_limit = 25,
-                     sleep_time = 0.5
-                     ):
+   def get_all_adv_records(
+                           self,
+                           pg_limit = 25,
+                           sleep_time = 0
+                           ):
       """
-      Get all records from COCONUT advanced search request.
+      Get all records from COCONUT API advanced search request.
 
       Parameters
       ----------
@@ -289,16 +348,24 @@ class cocoAdvSearch(
       Returns
       -------
       dict
-         Complete results from advanced search request.
+         Complete results from the COCONUT API advanced search request.
+      error
+         Raises errors if found
       """
       # get default search template to retrieve all records
       # empty fields retrieve all records
-      self.adv_mol_search_req = copy.deepcopy(
+      adv_mol_search_req_copy = copy.deepcopy(
                                               self.default_adv_mol_search_req
                                               )
 
       # set page limit
-      self.adv_mol_search_req["limit"] = pg_limit
+      adv_mol_search_req_copy["limit"] = pg_limit
 
       # retrieve all records
-      return self.run_AdvSearchReq(sleep_time = sleep_time)
+      all_data = self._paginate_adv_search_data(
+                                                json_body = adv_mol_search_req_copy,
+                                                sleep_time = sleep_time
+                                                )
+
+      # return data
+      return all_data

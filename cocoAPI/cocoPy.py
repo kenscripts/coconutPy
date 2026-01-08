@@ -21,11 +21,11 @@ class cocoPy:
                 password
                 ):
       # create login instance
-      self._cocoLog = cocoLog()
-      self._cocoLog.login(
-                          email = email,
-                          password = password
-                          )
-      self.get = cocoGet(self._cocoLog)
-      self.search = cocoSearch(self._cocoLog)
-      self.advSearch = cocoAdvSearch(self._cocoLog)
+      self.log = cocoLog()
+      self.log.login(
+                     email = email,
+                     password = password
+                     )
+      self.get = cocoGet(self.log)
+      self.search = cocoSearch(self.log)
+      self.advSearch = cocoAdvSearch(self.log)

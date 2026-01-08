@@ -4,7 +4,7 @@ class cocoGet(
               cocoBase
               ):
    """
-   Class for COCONUT get requests.
+   Class for COCONUT API GET requests.
    """
    def __init__(
                 self,
@@ -14,12 +14,12 @@ class cocoGet(
       super().__init__(cocoLog)
 
 
-   def resourceJson(
-                    self,
-                    resource_endpoint
-                    ):
+   def resource_json(
+                     self,
+                     resource_endpoint
+                     ):
       """
-      Retrieves JSON response from the COCONUT API.
+      Retrieves resource JSON from the COCONUT API endpoint.
 
       Parameters
       ----------
@@ -29,17 +29,34 @@ class cocoGet(
       Returns
       -------
       dict
-         JSON response from the COCONUT API.
+         Resource JSON from the COCONUT API endpoint.
+      error
+         Raises errors if found
       """
       return self._get(
                        endpoint = resource_endpoint
                        )
 
 
-   def resourceFields(
-                      self,
-                      resource_endpoint
-                      ):
+   def resource_fields(
+                       self,
+                       resource_endpoint
+                       ):
+      """
+      Retrieves resource fields from the COCONUT API endpoint.
+
+      Parameters
+      ----------
+      resource_endpoint
+         COCONUT API endpoint
+
+      Returns
+      -------
+      dict
+         Resource fields from the COCONUT API endpoint.
+      error
+         Raises errors if found
+      """
       return self._get(
                        endpoint = resource_endpoint
                        )["data"]["fields"]

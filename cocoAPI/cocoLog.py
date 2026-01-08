@@ -8,8 +8,8 @@ class cocoLog:
                  ):
        self.api_url = API_BASE.rstrip("/")
        self.session = requests.Session()
-       self.logSession = None # store json response
-       self.token = None
+       self.logSession = None # store login response
+       self.token = None # store access token
 
 
     def login(
@@ -18,8 +18,8 @@ class cocoLog:
               password
               ):
        """
-       Log in to the COCONUT API and return the response JSON.
-       On success, stores the token and sets the Authorization header.
+       Log in to the COCONUT API and store the access token.
+       On success, stores the access token and sets the Authorization header.
 
        Parameters
        ----------
@@ -30,8 +30,8 @@ class cocoLog:
 
        Returns
        -------
-       dict
-         JSON response from the COCONUT API.
+       error
+         Raises errors if found
        """
        # build login request
        login_post = f"{self.api_url}/auth/login"
@@ -39,14 +39,22 @@ class cocoLog:
                      "email" : email,
                      "password" : password
                      }
+
+       # request login
        self.logSession = self.session.post(
                                            url = login_post,
                                            json = login_json
                                            )
-       self.logSession.raise_for_status() # check
+
+       # check response
+       self.logSession.raise_for_status()
+
+       # get access token
        self.token = self.logSession.json().get(
                                                "access_token"
                                                )
+
+       # update session headers
        if self.token:
           self.session.headers.update(
                                       {
@@ -59,8 +67,7 @@ class cocoLog:
                self
                ):
        """
-       Log out from the COCONUT API. Returns the response JSON.
-       Clears stored token and Authorization header.
+       Log out from the COCONUT API. Clears stored access token and Authorization header.
        """
        # validate login
        if not self.token:
@@ -71,7 +78,11 @@ class cocoLog:
        self.logSession = self.session.get(
                                           url = logout_get
                                           )
+
+       # check response
        self.logSession.raise_for_status() # check
+
+       # clear access token and Authorization header
        self.session.headers.pop(
                                 "Authorization",
                                 None
