@@ -184,7 +184,7 @@ adv_mol_search_query = [
                         ["tags","organisms","Ferula"]
                         ]
 
-# advanced search
+# tag-based advanced search
 # API may fail with page limits > 50
 # increase sleep_time for 502 Bad Gateway error
 coco.advSearch.advanced_query(
@@ -201,7 +201,7 @@ adv_mol_search_query = [
                         ["filters","np_pathway","Alkaloids"]
                         ]
 
-# advanced search
+# filter-based advanced search
 # API may fail with page limits > 50
 # increase sleep_time for 502 Bad Gateway error
 coco.advSearch.advanced_query(
@@ -220,7 +220,7 @@ adv_mol_search_query = [
                         ["filters","mw","500..1000"]
                         ]
 
-# advanced search
+# filter-based advanced search
 # API may fail with page limits > 50
 # increase sleep_time for 502 Bad Gateway error
 coco.advSearch.advanced_query(
@@ -239,7 +239,7 @@ adv_mol_search_query = [
                         ["filters","mw","500..1000"]
                         ]
 
-# advanced search
+# filter-based advanced search
 # API may fail with page limits > 50
 # increase sleep_time for 502 Bad Gateway error
 coco.advSearch.advanced_query(
