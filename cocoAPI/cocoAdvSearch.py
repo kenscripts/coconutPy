@@ -263,12 +263,10 @@ class cocoAdvSearch(
 
       # pagination input
       # create copy to modify page
-      # create page if not present; page is below search
+      # assign page if not specified
       adv_mol_search_req_copy = json_body.copy()
-      adv_mol_search_req_copy.setdefault(
-                                         "page",
-                                         1
-                                         )
+      if not adv_mol_search_req_copy.get("page"):
+         adv_mol_search_req_copy["page"] = 1
 
       # paginate
       all_data = []
