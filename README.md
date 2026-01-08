@@ -3,11 +3,13 @@
 A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API. All responses are retrieved as JSON.
 
 
+
 # Install
 ```
 # from github using pip
 pip install git+https://github.com/kenscripts/coconutPy.git
 ```
+
 
 # Quick Start
 ## Load Packages
@@ -15,6 +17,7 @@ pip install git+https://github.com/kenscripts/coconutPy.git
 import os
 from cocoAPI import cocoPy
 ```
+
 
 ## Login to COCONUT Database
 To get login credentials, sign up on [COCONUT](https://coconut.naturalproducts.net/login).
@@ -38,6 +41,7 @@ coco = cocoPy(
               password = PSSWD
               )
 ```
+
 
 ## Get COCONUT Resource Details
 COCONUT resources include: `citations`, `collections`, `molecules`, `organisms`, `properties`, and `reports`.
@@ -149,6 +153,7 @@ for coll in coco.search.get_all_records(
             )
 ```
 
+
 ## Advanced Search For COCONUT Molecules Resource
 ### Input
 `adv_search_query` is a list of entries. Each entry is a list of the following format: [`type`, `tag|filter`,`value`].
@@ -168,109 +173,92 @@ coco.advSearch.adv_mol_search_info["filters"]
 ```
 
 ### Tag-Based Advanced Search
-First build the advanced search request:
 ```
-coco.advSearch.build_AdvSearchReq(
-                                  adv_search_query = [
-                                                      ["tags","organisms","Ferula"]
-                                                      ]
-                                  )
-```
+# advanced search query
+adv_mol_search_query = [
+                        ["tags","organisms","Ferula"]
+                        ]
 
-Preview and further modify the advanced search query:
-```
-# preview
-coco.advSearch.adv_mol_search_req
-# returns
-#{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
-
-# modify page limit
-coco.advSearch.adv_mol_search_req["limit"] = 50 # a limit of >50 not allowed by COCONUT API
-
-# preview
-coco.advSearch.adv_mol_search_req
-# returns 
-#{'type': 'tags', 'tagType': 'organisms', 'query': 'Ferula', 'limit': 50, 'sort': '', 'page': '', 'offset': ''}
-```
-
-Run the advanced search query:
-```
-coco.advSearch.run_AdvSearchReq()
+# advanced search
+# API may fail with page limits > 50
+# increase sleep_time for 502 Bad Gateway error
+coco.advSearch.advanced_query(
+                              adv_search_query = adv_mol_search_query,
+                              sleep_time = 0.5,
+                              pg_limit = 50
+                              )
 ```
 
 ### Filter-Based Advanced Search (Single Filter)
-First build the advanced search request:
 ```
-coco.advSearch.build_AdvSearchReq(
-                                  adv_search_query = [
-                                                      ["filters","np_pathway","Alkaloids"]
-                                                      ]
-                                  )
-```
+# advanced search query
+adv_mol_search_query = [
+                        ["filters","np_pathway","Alkaloids"]
+                        ]
 
-Run the advanced search query:
-```
-coco.advSearch.run_AdvSearchReq()
+# advanced search
+# API may fail with page limits > 50
+# increase sleep_time for 502 Bad Gateway error
+coco.advSearch.advanced_query(
+                              adv_search_query = adv_mol_search_query,
+                              sleep_time = 0.5,
+                              pg_limit = 50
+                              )
 ```
 
 ### Filter-Based Advanced Search (Multiple Filters)
 First build the advanced search request:
 ```
-coco.advSearch.build_AdvSearchReq(
-                                  adv_search_query = [
-                                                      ["filters","np_pathway","Alkaloids"],
-                                                      ["filters","mw","500..1000"]
-                                                      ]
-                                  )
+# advanced searcy query
+adv_search_query = [
+                    ["filters","np_pathway","Alkaloids"],
+                    ["filters","mw","500..1000"]
+                    ]
 
-# preview
-coco.advSearch.adv_mol_search_req
-# returns
-#{'type': 'filters', 'tagType': '', 'query': 'np_pathway:Alkaloids mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
-```
-
-Run the advanced search query:
-```
-coco.advSearch.run_AdvSearchReq()
+# advanced search
+# API may fail with page limits > 50
+# increase sleep_time for 502 Bad Gateway error
+coco.advSearch.advanced_query(
+                              adv_search_query = adv_mol_search_query,
+                              sleep_time = 0.5,
+                              pg_limit = 50
+                              )
 ```
 
 ### Filter-Based Advanced Search (Complex Filters)
-Build the advanced search request with OR logical operator:
 ```
-coco.advSearch.build_AdvSearchReq(
-                                  adv_search_query = [
-                                                      ["filters","np_pathway","Alkaloids"],
-                                                      ["filters","cs","true OR"],
-                                                      ["filters","mw","500..1000"]
-                                                      ]
-                                  )
+# build the advanced search request with OR logical operator:
+adv_search_query = [
+                    ["filters","np_pathway","Alkaloids"],
+                    ["filters","cs","true OR"],
+                    ["filters","mw","500..1000"]
+                    ]
 
-# preview
-coco.advSearch.adv_mol_search_req
-# returns
-#{'type': 'filters', 'tagType': '', 'query': 'np_pathway:Alkaloids cs:true OR mw:500..1000', 'limit': '', 'sort': '', 'page': '', 'offset': ''}
-```
-
-Run the advanced search query:
-```
-coco.advSearch.run_AdvSearchReq()
+# advanced search
+# API may fail with page limits > 50
+# increase sleep_time for 502 Bad Gateway error
+coco.advSearch.advanced_query(
+                              adv_search_query = adv_mol_search_query,
+                              sleep_time = 0.5,
+                              pg_limit = 50
+                              )
 ```
 
 ### Basic Advanced Search
-Value for basic advanced search must be a string of name, SMILES, InChI, or InChI key.
+```
+# value for basic advanced search must be a string of name, SMILES, InChI, or InChI key.
+adv_search_query = [
+                    ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
+                    ]
 
-Build the advanced search request:
-```
-coco.advSearch.build_AdvSearchReq(
-                                  adv_search_query = [
-                                                      ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
-                                                      ]
-                                  )
-```
-
-Run the advanced search query:
-```
-coco.advSearch.run_AdvSearchReq()
+# advanced search
+# API may fail with page limits > 50
+# increase sleep_time for 502 Bad Gateway error
+coco.advSearch.advanced_query(
+                              adv_search_query = adv_mol_search_query,
+                              sleep_time = 0.5,
+                              pg_limit = 50
+                              )
 ```
 
 # Database Citations
