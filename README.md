@@ -128,9 +128,11 @@ prop_search_query = [
                      ]
 
 # properties search
+# increase sleep_time for 502 Bad Gateway error
 coco.search.query(
                   resource_endpoint = "properties",
-                  search_query = prop_search_query
+                  search_query = prop_search_query,
+                  sleep_time = 0.5
                   )
 ```
 
@@ -143,9 +145,12 @@ coco.get.resource_fields(
                          )
 
 # get all records for collections resource
-for coll in coco.search.get_all_records(
+coll_recs = coco.search.get_all_records(
                                         resource_endpoint = "collections"
-                                        ):
+                                        )
+
+# find plant collections
+for coll in coll_recs:
    # find collections that mention plants
    if "plant" in coll["description"]:
       print(
