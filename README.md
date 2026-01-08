@@ -256,13 +256,9 @@ adv_mol_search_query = [
                         ["basic",None,"REFJWTPEDVJJIY-UHFFFAOYSA-N"]
                         ]
 
-# advanced search
-# API may fail with page limits > 50
-# increase sleep_time for 502 Bad Gateway error
+# basic advanced search
 coco.advSearch.advanced_query(
-                              adv_search_query = adv_mol_search_query,
-                              sleep_time = 0.5,
-                              pg_limit = 50
+                              adv_search_query = adv_mol_search_query
                               )
 ```
 
