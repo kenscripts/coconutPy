@@ -55,9 +55,9 @@ class cocoAdvSearch(
                                    )
 
       # build advanced search request
-      self.adv_mol_search_req = self._build_adv_search_req(
-                                                           adv_search_query
-                                                           )
+      self._build_adv_search_req(
+                                 adv_search_query
+                                 )
 
       # execute advanced search request
       return self._paginate_adv_search_data(
