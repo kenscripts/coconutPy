@@ -1,5 +1,5 @@
-# coconutPy
 ![GitHub repo size](https://img.shields.io/github/repo-size/kenscripts/coconutPy?style=flat)  
+# coconutPy
 A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API. All responses are retrieved as JSON.
 
 
@@ -44,16 +44,16 @@ COCONUT resources include: `citations`, `collections`, `molecules`, `organisms`,
 
 To retrive resource details:
 ```
-coco.get.resourceJson(
-                      resource_endpoint = "properties"
-                      )
+coco.get.resource_json(
+                       resource_endpoint = "properties"
+                       )
 ```
 
 To retrieve resource fields
 ```
-coco.get.resourceFields(
-                        resource_endpoint = "properties"
-                        )
+coco.get.resource_fields(
+                         resource_endpoint = "properties"
+                         )
 ```
 
 
@@ -71,9 +71,9 @@ coco.search.default_molecules_search_req["search"].keys()
 To find fields for resource:
 ```
 # molecules resource
-coco.get.resourceFields(
-                        resource_endpoint = "molecules"
-                        )
+coco.get.resource_fields(
+                         resource_endpoint = "molecules"
+                         )
 ```
 
 ### Search Example (Molecules)
@@ -86,10 +86,10 @@ mol_search_query = [
                     ]
 
 # molecules search
-coco.search.Search(
-                   resource_endpoint = "molecules",
-                   search_query = mol_search_query
-                   )
+coco.search.query(
+                  resource_endpoint = "molecules",
+                  search_query = mol_search_query
+                  )
 ```
 
 Properties can be included with molecule search:
@@ -106,10 +106,10 @@ mol_search_query = [
                     ]
 
 # molecules search with properties included
-coco.search.Search(
-                   resource_endpoint = "molecules",
-                   search_query = mol_search_query
-                   )
+coco.search.query(
+                  resource_endpoint = "molecules",
+                  search_query = mol_search_query
+                  )
 ```
 
 ### Search Example (Properties)
@@ -124,24 +124,24 @@ prop_search_query = [
                      ]
 
 # properties search
-coco.search.Search(
-                   resource_endpoint = "properties",
-                   search_query = prop_search_query
-                   )
+coco.search.query(
+                  resource_endpoint = "properties",
+                  search_query = prop_search_query
+                  )
 ```
 
 ### Search Example (Collections)
 Here is a search example for collections to identify plant collections:
 ```
 # get fields for collections resource
-coco.get.resourceFields(
-                        resource_endpoint = "collections"
-                        )
+coco.get.resource_fields(
+                         resource_endpoint = "collections"
+                         )
 
 # get all records for collections resource
-for coll in coco.search.allRecords(
-                                   resource_endpoint = "collections"
-                                   ):
+for coll in coco.search.get_all_records(
+                                        resource_endpoint = "collections"
+                                        ):
    # find collections that mention plants
    if "plant" in coll["description"]:
       print(
