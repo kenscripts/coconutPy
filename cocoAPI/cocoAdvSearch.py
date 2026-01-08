@@ -1,3 +1,4 @@
+from this import d
 from cocoAPI.cocoBase import cocoBase
 from cocoAPI import default_search_requests
 import copy
@@ -30,7 +31,8 @@ class cocoAdvSearch(
    def advanced_query(
                       self,
                       adv_search_query,
-                      sleep_time = 0
+                      sleep_time: int = 0,
+                      pg_limit: int = 25
                       ):
       """
       Runs advanced search request from `adv_search_query` and returns the json response.
@@ -40,7 +42,9 @@ class cocoAdvSearch(
       adv_search_query
          List of entries, where each entry has format [`type`, `tag|filter`, `value`]
       sleep_time
-         Time to sleep between requests to avoid rate limiting
+         Time to sleep between requests to avoid rate limiting. Default is 0.
+      pg_limit
+         Number of results per page. Default is 25.
 
       Returns
       -------
@@ -62,7 +66,8 @@ class cocoAdvSearch(
       # execute advanced search request
       return self._paginate_adv_search_data(
                                             json_body = self.adv_mol_search_req,
-                                            sleep_time = sleep_time
+                                            sleep_time = sleep_time,
+                                            pg_limit = pg_limit
                                             )
 
    def _check_adv_search_query(
@@ -232,8 +237,9 @@ class cocoAdvSearch(
 
    def _paginate_adv_search_data(
                                  self,
-                                 json_body,
-                                 sleep_time
+                                 json_body: dict,
+                                 sleep_time: int = 0,
+                                 pg_limit: int = 25
                                  ):
       """
       Performs pagination on the data returned from the COCONUT API advanced search request.
@@ -243,7 +249,9 @@ class cocoAdvSearch(
       json_body
          JSON body for the advanced search request
       sleep_time
-         Time to sleep to avoid rate limiting
+         Time to sleep to avoid rate limiting. Default is 0.
+      pg_limit
+         Number of results per page. Default is 25.
 
       Returns
       -------
@@ -263,10 +271,12 @@ class cocoAdvSearch(
 
       # pagination input
       # create copy to modify page
-      # assign page if not specified
+      # assign page and limit if not specified
       adv_mol_search_req_copy = json_body.copy()
       if not adv_mol_search_req_copy.get("page"):
          adv_mol_search_req_copy["page"] = 1
+      if not adv_mol_search_req_copy.get("limit"):
+         adv_mol_search_req_copy["limit"] = pg_limit
 
       # paginate
       all_data = []
@@ -330,8 +340,8 @@ class cocoAdvSearch(
 
    def get_all_adv_records(
                            self,
-                           pg_limit = 25,
-                           sleep_time = 0
+                           pg_limit: int = 25,
+                           sleep_time: int = 0
                            ):
       """
       Get all records from COCONUT API advanced search request.
@@ -339,9 +349,9 @@ class cocoAdvSearch(
       Parameters
       ----------
       pg_limit
-         Number of results per page
+         Number of results per page. Default is 25.
       sleep_time
-         Time to sleep to avoid rate limiting
+         Time to sleep to avoid rate limiting. Default is 0.
 
       Returns
       -------
@@ -356,13 +366,11 @@ class cocoAdvSearch(
                                               self.default_adv_mol_search_req
                                               )
 
-      # set page limit
-      adv_mol_search_req_copy["limit"] = pg_limit
-
       # retrieve all records
       all_data = self._paginate_adv_search_data(
                                                 json_body = adv_mol_search_req_copy,
-                                                sleep_time = sleep_time
+                                                sleep_time = sleep_time,
+                                                pg_limit = pg_limit
                                                 )
 
       # return data
