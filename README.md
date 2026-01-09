@@ -262,6 +262,9 @@ coco.advSearch.advanced_query(
                               )
 ```
 
+# Documentation
+API documentation is available at: https://coconutpy.readthedocs.io/en/latest/api.html
+
 # Database Citations
 COCONUT Paper:  
 Venkata Chandrasekhar, Kohulan Rajan, Sri Ram Sagar Kanakam, Nisha Sharma, Viktor Weißenborn, Jonas Schaub, Christoph Steinbeck, 
