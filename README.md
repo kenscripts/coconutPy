@@ -1,4 +1,6 @@
-![GitHub repo size](https://img.shields.io/github/repo-size/kenscripts/coconutPy?style=flat)  
+![GitHub repo size](https://img.shields.io/github/repo-size/kenscripts/coconutPy?style=flat)
+[![DOI](https://zenodo.org/badge/958328317.svg)](https://doi.org/10.5281/zenodo.18193496)
+
 # coconutPy
 A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural product database REST API. All responses are retrieved as JSON.
 
