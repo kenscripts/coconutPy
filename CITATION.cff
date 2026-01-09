@@ -1,0 +1,22 @@
+abstract: '<ul>
+
+  <li>initial release</li>
+
+  <li>API documentation on read the docs</li>
+
+  <li>uploaded to pip</li>
+
+  </ul>'
+authors:
+- affiliation: Rutgers University
+  family-names: Kenneth Acosta
+cff-version: 1.2.0
+date-released: '2026-01-09'
+doi: 10.5281/zenodo.18193497
+license:
+- cc-by-4.0
+message: If you use this software, please cite it using the metadata from this file.
+repository-code: https://github.com/kenscripts/coconutPy/tree/v0.1.0
+title: 'kenscripts/coconutPy: coconutPy 0.1.0'
+type: software
+version: v0.1.0
