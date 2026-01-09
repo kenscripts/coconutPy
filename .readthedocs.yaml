@@ -1,0 +1,9 @@
+version: 0.1.0
+
+build:
+      os: linux
+      tools:
+            python: ">=3.9"
+
+sphinx:
+       configuration: docs/conf.py
