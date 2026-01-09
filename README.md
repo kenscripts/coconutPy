@@ -6,7 +6,10 @@ A Python wrapper for the [COCONUT](https://coconut.naturalproducts.net/) natural
 
 # Install
 ```
-# from github using pip
+# stable version
+pip install coconutPy-api==0.1.0
+
+# development version (github)
 pip install git+https://github.com/kenscripts/coconutPy.git
 ```
 

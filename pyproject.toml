@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "coconutPy"
+name = "coconutPy-api"
 version = "0.1.0"
 description = "A Python wrapper for the COCONUT natural product database REST API."
 readme = "README.md"
