@@ -7,7 +7,7 @@ class cocoSearch(
                  cocoBase
                  ):
    """
-   Class for performing searches against COCONUT database.
+   Class for COCONUT API search endpoints.
    """
    def __init__(
                 self,
@@ -46,7 +46,7 @@ class cocoSearch(
       Returns
       -------
       dict
-         Complete results from search request.
+         Complete results from search request
       error
          Raises errors if found
       """
@@ -181,7 +181,7 @@ class cocoSearch(
       Returns
       -------
       dict
-         Search request from `search_query`.
+         Search request from `search_query`
       """
       # init search_request
       search_req = {
@@ -246,7 +246,7 @@ class cocoSearch(
       Returns
       -------
       dict
-         Complete results from the COCONUT API search request.
+         Complete results from the COCONUT API search request
       error
          Raises errors if found
       """
@@ -339,7 +339,7 @@ class cocoSearch(
       Returns
       -------
       dict
-         Complete results from search request.
+         Complete results from search request
       error
          Raises errors if found
       """

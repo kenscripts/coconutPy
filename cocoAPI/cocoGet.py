@@ -29,7 +29,7 @@ class cocoGet(
       Returns
       -------
       dict
-         Resource JSON from the COCONUT API endpoint.
+         Resource JSON from the COCONUT API endpoint
       error
          Raises errors if found
       """
@@ -53,7 +53,7 @@ class cocoGet(
       Returns
       -------
       dict
-         Resource fields from the COCONUT API endpoint.
+         Resource fields from the COCONUT API endpoint
       error
          Raises errors if found
       """

@@ -35,7 +35,7 @@ class cocoBase:
       Returns
       -------
       dict
-         JSON response from the COCONUT API endpoint.
+         JSON response from the COCONUT API endpoint
       error
          Raises errors if found
       """
@@ -73,7 +73,7 @@ class cocoBase:
       Returns
       -------
       dict
-         JSON response from the COCONUT API endpoint.
+         JSON response from the COCONUT API endpoint
       error
          Raises errors if found
       """

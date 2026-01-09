@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Documentation &mdash; coconutPy 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="coconutPy Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            coconutPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cocopy">cocoPy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoPy.cocoPy"><code class="docutils literal notranslate"><span class="pre">cocoPy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cocolog">cocoLog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoLog.cocoLog"><code class="docutils literal notranslate"><span class="pre">cocoLog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoLog.cocoLog.login"><code class="docutils literal notranslate"><span class="pre">cocoLog.login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoLog.cocoLog.logout"><code class="docutils literal notranslate"><span class="pre">cocoLog.logout()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cocobase">cocoBase</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoBase.cocoBase"><code class="docutils literal notranslate"><span class="pre">cocoBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoBase.cocoBase._get"><code class="docutils literal notranslate"><span class="pre">cocoBase._get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoBase.cocoBase._post"><code class="docutils literal notranslate"><span class="pre">cocoBase._post()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cocoget">cocoGet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoGet.cocoGet"><code class="docutils literal notranslate"><span class="pre">cocoGet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoGet.cocoGet.resource_fields"><code class="docutils literal notranslate"><span class="pre">cocoGet.resource_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoGet.cocoGet.resource_json"><code class="docutils literal notranslate"><span class="pre">cocoGet.resource_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cocosearch">cocoSearch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch"><code class="docutils literal notranslate"><span class="pre">cocoSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch._build_search_req"><code class="docutils literal notranslate"><span class="pre">cocoSearch._build_search_req()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch._check_search_query"><code class="docutils literal notranslate"><span class="pre">cocoSearch._check_search_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch._paginate_search_data"><code class="docutils literal notranslate"><span class="pre">cocoSearch._paginate_search_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch.get_all_records"><code class="docutils literal notranslate"><span class="pre">cocoSearch.get_all_records()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoSearch.cocoSearch.query"><code class="docutils literal notranslate"><span class="pre">cocoSearch.query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cocoadvsearch">cocoAdvSearch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._build_adv_search_req"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch._build_adv_search_req()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._check_adv_search_query"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch._check_adv_search_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._paginate_adv_search_data"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch._paginate_adv_search_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch.advanced_query"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch.advanced_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch.get_all_adv_records"><code class="docutils literal notranslate"><span class="pre">cocoAdvSearch.get_all_adv_records()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">coconutPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading"></a></h1>
+<section id="cocopy">
+<h2>cocoPy<a class="headerlink" href="#cocopy" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoPy.cocoPy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoPy.</span></span><span class="sig-name descname"><span class="pre">cocoPy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoPy.html#cocoPy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoPy.cocoPy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for COCONUT API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> – Email address for COCONUT account</p></li>
+<li><p><strong>password</strong> – Password for COCONUT account</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="cocolog">
+<h2>cocoLog<a class="headerlink" href="#cocolog" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoLog.cocoLog">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoLog.</span></span><span class="sig-name descname"><span class="pre">cocoLog</span></span><a class="reference internal" href="_modules/cocoAPI/cocoLog.html#cocoLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoLog.cocoLog" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoLog.cocoLog.login">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoLog.html#cocoLog.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoLog.cocoLog.login" title="Link to this definition"></a></dt>
+<dd><p>Log in to the COCONUT API and store the access token.
+On success, stores the access token and sets the Authorization header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> – Email address for COCONUT account</p></li>
+<li><p><strong>password</strong> – Password for COCONUT account</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raises errors if found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoLog.cocoLog.logout">
+<span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoLog.html#cocoLog.logout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoLog.cocoLog.logout" title="Link to this definition"></a></dt>
+<dd><p>Log out from the COCONUT API. Clears stored access token and Authorization header.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cocobase">
+<h2>cocoBase<a class="headerlink" href="#cocobase" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoBase.cocoBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoBase.</span></span><span class="sig-name descname"><span class="pre">cocoBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cocoLog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoBase.html#cocoBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoBase.cocoBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for COCONUT API GET and POST requests.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoBase.cocoBase._get">
+<span class="sig-name descname"><span class="pre">_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoBase.html#cocoBase._get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoBase.cocoBase._get" title="Link to this definition"></a></dt>
+<dd><p>Performs GET request to the COCONUT API endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – COCONUT API endpoint</p></li>
+<li><p><strong>params</strong> – GET parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – JSON response from the COCONUT API endpoint</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoBase.cocoBase._post">
+<span class="sig-name descname"><span class="pre">_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_body</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoBase.html#cocoBase._post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoBase.cocoBase._post" title="Link to this definition"></a></dt>
+<dd><p>Performs POST request to the COCONUT API endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – COCONUT API endpoint</p></li>
+<li><p><strong>json_body</strong> – JSON body for the POST request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – JSON response from the COCONUT API endpoint</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cocoget">
+<h2>cocoGet<a class="headerlink" href="#cocoget" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoGet.cocoGet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoGet.</span></span><span class="sig-name descname"><span class="pre">cocoGet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cocoLog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoGet.html#cocoGet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoGet.cocoGet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cocoAPI.cocoBase.cocoBase" title="cocoAPI.cocoBase.cocoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cocoBase</span></code></a></p>
+<p>Class for COCONUT API GET requests.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoGet.cocoGet.resource_fields">
+<span class="sig-name descname"><span class="pre">resource_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoGet.html#cocoGet.resource_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoGet.cocoGet.resource_fields" title="Link to this definition"></a></dt>
+<dd><p>Retrieves resource fields from the COCONUT API endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource_endpoint</strong> – COCONUT API endpoint</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Resource fields from the COCONUT API endpoint</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoGet.cocoGet.resource_json">
+<span class="sig-name descname"><span class="pre">resource_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoGet.html#cocoGet.resource_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoGet.cocoGet.resource_json" title="Link to this definition"></a></dt>
+<dd><p>Retrieves resource JSON from the COCONUT API endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource_endpoint</strong> – COCONUT API endpoint</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Resource JSON from the COCONUT API endpoint</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cocosearch">
+<h2>cocoSearch<a class="headerlink" href="#cocosearch" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoSearch.</span></span><span class="sig-name descname"><span class="pre">cocoSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cocoLog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cocoAPI.cocoBase.cocoBase" title="cocoAPI.cocoBase.cocoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cocoBase</span></code></a></p>
+<p>Class for COCONUT API search endpoints.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch._build_search_req">
+<span class="sig-name descname"><span class="pre">_build_search_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch._build_search_req"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch._build_search_req" title="Link to this definition"></a></dt>
+<dd><p>Builds search request from a <cite>search_query</cite> list of entries, where each entry has format [key, field, value].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_endpoint</strong> – COCONUT API endpoint to search</p></li>
+<li><p><strong>search_query</strong> – List of entries, where each entry has format [key, field, value]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Search request from <cite>search_query</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch._check_search_query">
+<span class="sig-name descname"><span class="pre">_check_search_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch._check_search_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch._check_search_query" title="Link to this definition"></a></dt>
+<dd><p>Performs several checks on <cite>search_query</cite> to ensure correct format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_endpoint</strong> – COCONUT API endpoint to search</p></li>
+<li><p><strong>search_query</strong> – List of entries, where each entry has format [key, field, value]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raises errors if found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch._paginate_search_data">
+<span class="sig-name descname"><span class="pre">_paginate_search_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch._paginate_search_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch._paginate_search_data" title="Link to this definition"></a></dt>
+<dd><p>Performs pagination on the data returned from the COCONUT API search request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – COCONUT API endpoint</p></li>
+<li><p><strong>json_body</strong> – JSON body for the search request</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep between requests to avoid rate limiting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from the COCONUT API search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch.get_all_records">
+<span class="sig-name descname"><span class="pre">get_all_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pg_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch.get_all_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch.get_all_records" title="Link to this definition"></a></dt>
+<dd><p>Get all records from COCONUT API endpoint to search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_endpoint</strong> – COCONUT API endpoint to search</p></li>
+<li><p><strong>pg_limit</strong> – Number of results per page</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep to avoid rate limiting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoSearch.cocoSearch.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoSearch.html#cocoSearch.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoSearch.cocoSearch.query" title="Link to this definition"></a></dt>
+<dd><p>Performs COCONUT search request and returns the json response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_endpoint</strong> – COCONUT resource to search</p></li>
+<li><p><strong>search_query</strong> – List of entries, where each entry has format [key, field, value]</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep between requests to avoid rate limiting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cocoadvsearch">
+<h2>cocoAdvSearch<a class="headerlink" href="#cocoadvsearch" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cocoAPI.cocoAdvSearch.</span></span><span class="sig-name descname"><span class="pre">cocoAdvSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cocoLog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cocoAPI.cocoBase.cocoBase" title="cocoAPI.cocoBase.cocoBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cocoBase</span></code></a></p>
+<p>Class for COCONUT API advanced search endpoint.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch._build_adv_search_req">
+<span class="sig-name descname"><span class="pre">_build_adv_search_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adv_search_query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch._build_adv_search_req"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._build_adv_search_req" title="Link to this definition"></a></dt>
+<dd><p>Builds advanced search request from a <cite>adv_search_query</cite> list of entries, where each entry has format [<cite>type</cite>, <cite>tag|filter</cite>, <cite>value</cite>].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adv_search_query</strong> – List of entries, where each entry has format [<cite>type</cite>, <cite>tag|filter</cite>, <cite>value</cite>]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Advanced search request from <cite>adv_search_query</cite></p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch._check_adv_search_query">
+<span class="sig-name descname"><span class="pre">_check_adv_search_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adv_search_query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch._check_adv_search_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._check_adv_search_query" title="Link to this definition"></a></dt>
+<dd><p>Performs several checks on <cite>adv_search_query</cite> to ensure correct format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adv_search_query</strong> – List of entries, where each entry has format [<cite>type</cite>, <cite>tag|filter</cite>, <cite>value</cite>]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raises errors if found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch._paginate_adv_search_data">
+<span class="sig-name descname"><span class="pre">_paginate_adv_search_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pg_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch._paginate_adv_search_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch._paginate_adv_search_data" title="Link to this definition"></a></dt>
+<dd><p>Performs pagination on the data returned from the COCONUT API advanced search request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_body</strong> – JSON body for the advanced search request</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep to avoid rate limiting. Default is 0</p></li>
+<li><p><strong>pg_limit</strong> – Number of results per page. Default is 25</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from the COCONUT API advanced search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch.advanced_query">
+<span class="sig-name descname"><span class="pre">advanced_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adv_search_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pg_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch.advanced_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch.advanced_query" title="Link to this definition"></a></dt>
+<dd><p>Runs advanced search request from <cite>adv_search_query</cite> and returns the json response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adv_search_query</strong> – List of entries, where each entry has format [<cite>type</cite>, <cite>tag|filter</cite>, <cite>value</cite>]</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep between requests to avoid rate limiting. Default is 0</p></li>
+<li><p><strong>pg_limit</strong> – Number of results per page. Default is 25</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from the COCONUT API advanced search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cocoAPI.cocoAdvSearch.cocoAdvSearch.get_all_adv_records">
+<span class="sig-name descname"><span class="pre">get_all_adv_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pg_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cocoAPI/cocoAdvSearch.html#cocoAdvSearch.get_all_adv_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cocoAPI.cocoAdvSearch.cocoAdvSearch.get_all_adv_records" title="Link to this definition"></a></dt>
+<dd><p>Get all records from COCONUT API advanced search endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pg_limit</strong> – Number of results per page. Default is 25</p></li>
+<li><p><strong>sleep_time</strong> – Time to sleep to avoid rate limiting. Default is 0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – Complete results from the COCONUT API advanced search request</p></li>
+<li><p><em>error</em> – Raises errors if found</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="coconutPy Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kenneth Acosta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

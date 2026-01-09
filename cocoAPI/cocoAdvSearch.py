@@ -9,7 +9,7 @@ class cocoAdvSearch(
                     cocoBase
                     ):
    """
-   Class for performing advanced searches against COCONUT API molecules endpoint.
+   Class for COCONUT API advanced search endpoint.
    """
    def __init__(
                 self,
@@ -42,14 +42,14 @@ class cocoAdvSearch(
       adv_search_query
          List of entries, where each entry has format [`type`, `tag|filter`, `value`]
       sleep_time
-         Time to sleep between requests to avoid rate limiting. Default is 0.
+         Time to sleep between requests to avoid rate limiting. Default is 0
       pg_limit
-         Number of results per page. Default is 25.
+         Number of results per page. Default is 25
 
       Returns
       -------
       dict
-         Complete results from the COCONUT API advanced search request.
+         Complete results from the COCONUT API advanced search request
       error
          Raises errors if found
       """
@@ -185,7 +185,7 @@ class cocoAdvSearch(
       Returns
       -------
       dict
-         Advanced search request from `adv_search_query`.
+         Advanced search request from `adv_search_query`
       error
          Raises errors if found
       """
@@ -249,14 +249,14 @@ class cocoAdvSearch(
       json_body
          JSON body for the advanced search request
       sleep_time
-         Time to sleep to avoid rate limiting. Default is 0.
+         Time to sleep to avoid rate limiting. Default is 0
       pg_limit
-         Number of results per page. Default is 25.
+         Number of results per page. Default is 25
 
       Returns
       -------
       dict
-         Complete results from the COCONUT API advanced search request.
+         Complete results from the COCONUT API advanced search request
       error
          Raises errors if found
       """
@@ -344,19 +344,19 @@ class cocoAdvSearch(
                            sleep_time: int = 0
                            ):
       """
-      Get all records from COCONUT API advanced search request.
+      Get all records from COCONUT API advanced search endpoint.
 
       Parameters
       ----------
       pg_limit
-         Number of results per page. Default is 25.
+         Number of results per page. Default is 25
       sleep_time
-         Time to sleep to avoid rate limiting. Default is 0.
+         Time to sleep to avoid rate limiting. Default is 0
 
       Returns
       -------
       dict
-         Complete results from the COCONUT API advanced search request.
+         Complete results from the COCONUT API advanced search request
       error
          Raises errors if found
       """
